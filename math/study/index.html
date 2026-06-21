@@ -920,14 +920,6 @@ bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 nls.forEach(a=>a.addEventListener('click',()=>sb.classList.remove('open')));
 document.querySelectorAll('.example-toggle').forEach(btn=>{btn.addEventListener('click',()=>{const ex=btn.closest('.example');ex.classList.toggle('collapsed');btn.textContent=ex.classList.contains('collapsed')?'展开':'收起'})});
 </script>
-<script src="../static/katex/katex.min.js"></script>
-<script src="../static/katex/contrib/auto-render.min.js"></script>
-<script>
-renderMathInElement(document.body,{delimiters:[
-{left:"$$",right:"$$",display:true},
-{left:"\[",right:"\]",display:true},
-{left:"\(",right:"\)",display:false}
-],throwOnError:false});
-</script>
+
 </body>
 </html>
