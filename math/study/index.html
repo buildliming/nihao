@@ -4,6 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>高数大一下 · 学习</title>
 <link rel="stylesheet" href="../static/katex/katex.min.css">
+
 <style>
 :root {
   --bg:#f5f7fa;--card:#fff;--text:#1a1a2e;--text2:#5a6170;--border:#e2e8f0;
@@ -908,7 +909,7 @@ h3{font-size:1.01rem;margin:16px 0 8px;color:var(--accent);font-weight:600}
 <script src="../static/katex/katex.min.js"></script>
 <script src="../static/katex/contrib/auto-render.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded",function(){document.addEventListener("DOMContentLoaded",function(){document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
 const tb=document.getElementById('themeBtn');
 if(localStorage.getItem('review-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
 tb.addEventListener('click',()=>{const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('review-theme',d?'light':'dark')});
