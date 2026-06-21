@@ -907,15 +907,33 @@ h3{font-size:1.01rem;margin:16px 0 8px;color:var(--accent);font-weight:600}
 </main>
 <button class="back-top" id="backTop">↑</button>
 <script src="../static/katex/katex.min.js"></script>
-<script src="../static/katex/contrib/auto-render.min.js"></script><script src="../static/katex/katex-init.js"></script>
-
+<script src="../static/katex/contrib/auto-render.min.js"></script>
+<script src="../static/katex/katex-init.js"></script>
 <script>
-);nls.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+c)})});
+try {
+  if (typeof katex === "undefined") {
+    document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: katex not loaded</div>");
+  } else if (typeof renderMathInElement === "undefined") {
+    document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: renderMathInElement not found</div>");
+  } else {
+    renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  }
+} catch(e) {
+  document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: " + e.message + "</div>");
+}
+
+const tb=document.getElementById('themeBtn');
+if(localStorage.getItem('review-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
+tb.addEventListener('click',()=>{const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('review-theme',d?'light':'dark')});
+const mt=document.getElementById('menuToggle'),sb=document.getElementById('sidebar');
+mt.addEventListener('click',()=>sb.classList.toggle('open'));
+document.addEventListener('click',e=>{if(!sb.contains(e.target)&&e.target!==mt&&!mt.contains(e.target))sb.classList.remove('open')});
+const secs=document.querySelectorAll('.section'),nls=document.querySelectorAll('.nav-links li a'),pb=document.getElementById('progress'),bt=document.getElementById('backTop');
+window.addEventListener('scroll',()=>{const st=window.scrollY,dh=document.body.scrollHeight-window.innerHeight;pb.style.width=dh>0?(st/dh*100)+'%':'0%';bt.classList.toggle('visible',st>400);let c='';secs.forEach(s=>{if(st>=s.offsetTop-100)c=s.id});nls.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+c)})});
 bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 nls.forEach(a=>a.addEventListener('click',()=>sb.classList.remove('open')));
 document.querySelectorAll('.example-toggle').forEach(btn=>{btn.addEventListener('click',()=>{const ex=btn.closest('.example');ex.classList.toggle('collapsed');btn.textContent=ex.classList.contains('collapsed')?'展开':'收起'})});
-
-
 </script>
+
 </body>
 </html>
