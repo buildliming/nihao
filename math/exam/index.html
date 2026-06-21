@@ -1010,40 +1010,10 @@ D 错误——\(L\) 必须是封闭曲线。\(\boxed{\text{D}}\)
 </main>
 <button class="back-top" id="backTop">&#8593;</button>
 <script src="../static/katex/katex.min.js"></script>
-<script src="../static/katex/contrib/auto-render.min.js"></script>
+<script src="../static/katex/contrib/auto-render.min.js"></script><script src="../static/katex/katex-init.js"></script>
+
 <script>
-try {
-  if (typeof katex === "undefined") {
-    document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: katex not loaded</div>");
-  } else if (typeof renderMathInElement === "undefined") {
-    document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: renderMathInElement not found</div>");
-  } else {
-    renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
-  }
-} catch(e) {
-  document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: " + e.message + "</div>");
-}
-
-
-// === Reveal answers + show score inputs ===
-function revealAll(btn){
-  const card=btn.closest('.exam-card');
-  card.querySelectorAll('.quiz-answer').forEach(a=>a.style.display='block');
-  card.querySelectorAll('.self-score').forEach(s=>s.style.display='block');
-  btn.disabled=true;
-}
-
-// === Self-scoring ===
-function updateTotal(input){
-  const examId=input.dataset.exam;
-  const card=input.closest('.exam-card');
-  let total=0;
-  card.querySelectorAll('.score-input').forEach(inp=>{
-    const v=parseFloat(inp.value);
-    if(!isNaN(v) && v>=0){
-      total+=Math.min(v, parseFloat(inp.dataset.max)||10);
-    }
-  });
+);
   const totalEl=document.getElementById(examId+'-total');
   if(totalEl) totalEl.textContent=total;
   // Update sidebar progress
@@ -1131,7 +1101,8 @@ window.addEventListener('scroll',()=>{
 });
 bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 nls.forEach(a=>a.addEventListener('click',()=>sb.classList.remove('open')));
-</script>
 
+
+</script>
 </body>
 </html>
