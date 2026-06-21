@@ -909,18 +909,9 @@ h3{font-size:1.01rem;margin:16px 0 8px;color:var(--accent);font-weight:600}
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
+<script src="../static/katex/katex-auto.js"></script>
+
 <script>
-renderMathInElement(document.body, {
-  delimiters: [
-    {left: "$$", right: "$$", display: true},
-    {left: "\[", right: "\]", display: true},
-    {left: "\(", right: "\)", display: false}
-  ],
-  throwOnError: false
-});
-
-
-
 const tb=document.getElementById('themeBtn');
 if(localStorage.getItem('review-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
 tb.addEventListener('click',()=>{const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('review-theme',d?'light':'dark')});
@@ -931,8 +922,4 @@ const secs=document.querySelectorAll('.section'),nls=document.querySelectorAll('
 window.addEventListener('scroll',()=>{const st=window.scrollY,dh=document.body.scrollHeight-window.innerHeight;pb.style.width=dh>0?(st/dh*100)+'%':'0%';bt.classList.toggle('visible',st>400);let c='';secs.forEach(s=>{if(st>=s.offsetTop-100)c=s.id});nls.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+c)})});
 bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 nls.forEach(a=>a.addEventListener('click',()=>sb.classList.remove('open')));
-document.querySelectorAll('.example-toggle').forEach(btn=>{btn.addEventListener('click',()=>{const ex=btn.closest('.example');ex.classList.toggle('collapsed');btn.textContent=ex.classList.contains('collapsed')?'展开':'收起'})});
-</script>
-
-</body>
-</html>
+document.querySelectorAll('.example-toggle').forEach(btn=>{btn.addEventListener('click',()=>{const ex=btn.closest('.example');ex.classList.toggle('collapsed');btn.textContent=ex.c
