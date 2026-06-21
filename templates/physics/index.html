@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大学物理 · 期末复习</title>
+<link rel="stylesheet" href="/static/katex/katex.min.css">
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--text:#1a1a2e;--text2:#5a6170;--border:#e2e8f0;--accent:#4f46e5;--accent-light:#eef2ff;--shadow:0 1px 2px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 4px 24px rgba(0,0,0,.08);--radius:12px;--sidebar-w:260px;--font:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;--subj:#059669;--subj-light:#ecfdf5}
+[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--text2:#94a3b8;--border:#334155;--accent:#818cf8;--accent-light:#1e1b4b;--shadow:0 1px 3px rgba(0,0,0,.4);--shadow-lg:0 4px 24px rgba(0,0,0,.5);--subj:#34d399;--subj-light:#022c22}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;line-height:1.75}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--card);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:0 0 20px;transition:transform .25s}
+.sidebar-header{padding:16px 18px 10px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.sidebar-header h2{font-size:1.01rem;font-weight:700;color:var(--subj)}
+.sidebar-header .sub{font-size:.98rem;color:var(--text2)}
+.subj-nav{display:flex;gap:3px;padding:8px 14px;flex-wrap:wrap;border-bottom:1px solid var(--border);margin-bottom:4px}
+.subj-nav a{font-size:.96rem;padding:4px 9px;border-radius:14px;text-decoration:none;color:var(--text2);border:1px solid var(--border);transition:all .15s;white-space:nowrap}
+.subj-nav a:hover{border-color:var(--accent);color:var(--accent)}
+.subj-nav a.cur{background:var(--subj);color:#fff;border-color:var(--subj);font-weight:600}
+.nav-group-title{padding:6px 18px;font-size:.98rem;font-weight:700;letter-spacing:.04em;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none}
+.nav-group-title::before{content:'▾';font-size:.98rem;transition:transform .2s}
+.nav-group.collapsed .nav-group-title::before{transform:rotate(-90deg)}
+.nav-group.collapsed .nav-links{display:none}
+.nav-links{list-style:none}
+.nav-links li a{display:block;padding:5px 18px 5px 24px;font-size:.94rem;color:var(--text2);text-decoration:none;border-left:3px solid transparent;transition:all .15s}
+.nav-links li a:hover{color:var(--subj);background:var(--subj-light)}
+.main{margin-left:var(--sidebar-w);flex:1;min-width:0;padding:16px 24px 80px;max-width:920px}
+.sub-nav{display:flex;gap:6px;padding:10px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;position:sticky;top:0;background:var(--bg);z-index:50}
+.sub-nav a{padding:8px 20px;border-radius:8px;text-decoration:none;font-size:.91rem;font-weight:600;color:var(--text2);transition:all .15s}
+.sub-nav a:hover{background:var(--accent-light);color:var(--accent)}
+.sub-nav a.cur{background:var(--subj);color:#fff}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:0}
+.topbar h1{font-size:1.33rem;font-weight:700}
+.theme-btn,.menu-toggle{background:var(--card);border:1px solid var(--border);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:.98rem;color:var(--text2);transition:all .15s}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+.menu-toggle{display:none;font-size:1.18rem;padding:3px 8px}
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin-bottom:24px;box-shadow:var(--shadow);scroll-margin-top:60px}
+.section h2{font-size:1.13rem;color:var(--subj)}
+.placeholder-box{text-align:center;padding:60px 24px;color:var(--text2)}
+.placeholder-box .icon{font-size:3rem;margin-bottom:12px}
+.placeholder-box p{font-size:.96rem;margin:4px 0}
+.placeholder-box .hint{font-size:.96rem;margin-top:10px;padding:10px 16px;background:var(--subj-light);border-radius:8px;display:inline-block;text-align:left}
+.back-top{position:fixed;bottom:26px;right:26px;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:1.18rem;cursor:pointer;box-shadow:var(--shadow-lg);opacity:0;transition:opacity .3s;z-index:200}
+.back-top.visible{opacity:1}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--subj),var(--accent));z-index:300;transition:width .15s linear}
+@media(max-width:860px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:10px 8px 50px}.menu-toggle{display:block}.section{padding:16px 12px}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header"><h2>🔬 大学物理</h2><div class="sub">期末复习 · 考点待补充</div></div>
+  <div class="subj-nav"><a href="/math/study/">📐 高数</a><a href="/physics/" class="cur">🔬 大物</a><a href="/linear_algebra/">📊 线代</a><a href="/c_lang/">💻 C语言</a></div>
+  <nav>
+    <div class="nav-group"><div class="nav-group-title">力学</div><ul class="nav-links"><li><a href="#p1">待补充</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">电磁学</div><ul class="nav-links"><li><a href="#p2">待补充</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">热学·振动·波·光学</div><ul class="nav-links"><li><a href="#p3">待补充</a></li></ul></div>
+  </nav>
+</aside>
+<main class="main">
+  <div class="topbar"><div style="display:flex;align-items:center;gap:8px"><button class="menu-toggle" id="menuToggle">☰</button><h1>🔬 大学物理</h1></div><button class="theme-btn" id="themeBtn">🌓 主题</button></div>
+  <div class="sub-nav"><a href="index.html" class="cur">📖 学习</a><a href="#" style="opacity:.5">✏️ 练习</a><a href="#" style="opacity:.5">📋 考试</a></div>
+  <section class="section" id="p1"><div class="placeholder-box"><div class="icon">📝</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充力学的核心概念和典型例题。</p><div class="hint">💡 预计涵盖：质点运动学、牛顿定律、动量能量、刚体转动等</div></div></section>
+  <section class="section" id="p2"><div class="placeholder-box"><div class="icon">⚡</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充电磁学的核心概念和典型例题。</p><div class="hint">💡 预计涵盖：静电场、恒定磁场、电磁感应、麦克斯韦方程组等</div></div></section>
+  <section class="section" id="p3"><div class="placeholder-box"><div class="icon">🌡️</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充热学/振动/波/光学的核心概念和典型例题。</p><div class="hint">💡 预计涵盖：热力学、简谐振动、机械波、光的干涉衍射等</div></div></section>
+</main>
+<button class="back-top" id="backTop">↑</button>
+<script>
+const tb=document.getElementById('themeBtn');
+if(localStorage.getItem('phy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
+tb.addEventListener('click',()=>{const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('phy-theme',d?'light':'dark')});
+const mt=document.getElementById('menuToggle'),sb=document.getElementById('sidebar');
+mt.addEventListener('click',()=>sb.classList.toggle('open'));
+document.addEventListener('click',e=>{if(!sb.contains(e.target)&&e.target!==mt&&!mt.contains(e.target))sb.classList.remove('open')});
+const bt=document.getElementById('backTop');const pb=document.getElementById('progress');
+window.addEventListener('scroll',()=>{const st=window.scrollY,dh=document.body.scrollHeight-window.innerHeight;pb.style.width=dh>0?(st/dh*100)+'%':'0%';bt.classList.toggle('visible',st>400)});
+bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>

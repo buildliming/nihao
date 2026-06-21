@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高数大一下 · 练习</title>
+<link rel="stylesheet" href="/static/katex/katex.min.css">
+<style>
+:root {
+  --bg:#f5f7fa;--card:#fff;--text:#1a1a2e;--text2:#5a6170;--border:#e2e8f0;
+  --accent:#4f46e5;--accent2:#6366f1;--accent-light:#eef2ff;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);
+  --shadow-lg:0 4px 24px rgba(0,0,0,.08);--radius:12px;--radius-sm:8px;
+  --sidebar-w:260px;--font:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --subj:#2563eb;--subj-light:#eff6ff;--green:#059669;--green-bg:#ecfdf5;--quiz-bg:#f8fafc;
+  --orange:#d97706;--orange-bg:#fffbeb;--red:#dc2626;--red-bg:#fef2f2;
+}
+[data-theme="dark"] {
+  --bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--text2:#94a3b8;--border:#334155;
+  --accent:#818cf8;--accent2:#a5b4fc;--accent-light:#1e1b4b;
+  --shadow:0 1px 3px rgba(0,0,0,.4);--shadow-lg:0 4px 24px rgba(0,0,0,.5);
+  --subj:#60a5fa;--subj-light:#172554;--green:#34d399;--green-bg:#022c22;--quiz-bg:#1e293b;
+  --orange:#fbbf24;--orange-bg:#1c1917;--red:#f87171;--red-bg:#1c1917;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;line-height:1.75}
+
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--card);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:0 0 20px;transition:transform .25s}
+.sidebar-header{padding:16px 18px 10px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.sidebar-header h2{font-size:1.01rem;font-weight:700;color:var(--subj)}
+.sidebar-header .sub{font-size:.98rem;color:var(--text2);margin-top:1px}
+
+.subj-nav{display:flex;gap:3px;padding:8px 14px;flex-wrap:wrap;border-bottom:1px solid var(--border);margin-bottom:4px}
+.subj-nav a{font-size:.96rem;padding:4px 9px;border-radius:14px;text-decoration:none;color:var(--text2);border:1px solid var(--border);transition:all .15s;white-space:nowrap}
+.subj-nav a:hover{border-color:var(--accent);color:var(--accent)}
+.subj-nav a.cur{background:var(--subj);color:#fff;border-color:var(--subj);font-weight:600}
+
+.nav-group{margin:2px 0}
+.nav-group-title{padding:6px 18px;font-size:.98rem;font-weight:700;letter-spacing:.04em;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none}
+.nav-group-title::before{content:'\25BE';font-size:.98rem;transition:transform .2s}
+.nav-group.collapsed .nav-group-title::before{transform:rotate(-90deg)}
+.nav-group.collapsed .nav-links{display:none}
+.nav-links{list-style:none}
+.nav-links li a{display:block;padding:5px 18px 5px 24px;font-size:.94rem;color:var(--text2);text-decoration:none;border-left:3px solid transparent;transition:all .15s}
+.nav-links li a:hover{color:var(--subj);background:var(--subj-light);border-left-color:var(--accent2)}
+.nav-links li a.active{color:var(--subj);font-weight:600;border-left-color:var(--subj);background:var(--subj-light)}
+
+.main{margin-left:var(--sidebar-w);flex:1;min-width:0;padding:16px 24px 80px;max-width:920px}
+
+.sub-nav{display:flex;gap:6px;padding:10px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;position:sticky;top:0;background:var(--bg);z-index:50}
+.sub-nav a{padding:8px 20px;border-radius:8px;text-decoration:none;font-size:.91rem;font-weight:600;color:var(--text2);transition:all .15s}
+.sub-nav a:hover{background:var(--accent-light);color:var(--accent)}
+.sub-nav a.cur{background:var(--subj);color:#fff}
+
+.filter-bar{display:flex;gap:6px;align-items:center;padding:8px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;flex-wrap:wrap;position:sticky;top:46px;background:var(--bg);z-index:49}
+.filter-bar button{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;font-size:.98rem;font-weight:500;transition:all .15s}
+.filter-bar button:hover{border-color:var(--accent);color:var(--accent)}
+.filter-bar button.active{background:var(--subj);color:#fff;border-color:var(--subj)}
+.filter-bar button.filt-easy{color:var(--green);border-color:var(--green)}
+.filter-bar button.filt-med{color:var(--orange);border-color:var(--orange)}
+.filter-bar button.filt-hard{color:var(--red);border-color:var(--red)}
+.filter-bar button.filt-easy.active{background:var(--green);color:#fff}
+.filter-bar button.filt-med.active{background:var(--orange);color:#fff}
+.filter-bar button.filt-hard.active{background:var(--red);color:#fff}
+.score-counter{margin-left:auto;font-size:.98rem;color:var(--text2);white-space:nowrap}
+.score-counter strong{color:var(--subj);font-size:1.08rem}
+.reset-btn{margin-left:8px;padding:6px 14px;border-radius:20px;border:1.5px solid var(--red);background:var(--card);color:var(--red);cursor:pointer;font-size:.98rem;font-weight:500;transition:all .15s}
+.reset-btn:hover{background:var(--red);color:#fff}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:0}
+.topbar h1{font-size:1.33rem;font-weight:700}
+.theme-btn,.menu-toggle{background:var(--card);border:1px solid var(--border);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:.98rem;color:var(--text2);transition:all .15s}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+.menu-toggle{display:none;font-size:1.18rem;padding:3px 8px}
+
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin-bottom:24px;box-shadow:var(--shadow);scroll-margin-top:60px;transition:box-shadow .2s}
+.section:hover{box-shadow:var(--shadow-lg)}
+.section h2{font-size:1.13rem;margin-bottom:4px;color:var(--subj);display:flex;align-items:center;gap:8px}
+.section h2 .badge{font-size:.98rem;background:var(--subj);color:#fff;padding:2px 9px;border-radius:10px;font-weight:500}
+
+.diff-badge{display:inline-block;font-size:.98rem;padding:1px 8px;border-radius:10px;margin-right:6px;font-weight:600}
+.diff-easy .diff-badge{background:var(--green-bg);color:var(--green)}
+.diff-med .diff-badge{background:var(--orange-bg);color:var(--orange)}
+.diff-hard .diff-badge{background:var(--red-bg);color:var(--red)}
+.diff-easy{border-left:3px solid var(--green)}
+.diff-med{border-left:3px solid var(--orange)}
+.diff-hard{border-left:3px solid var(--red)}
+
+.quiz-item{margin:12px 0;padding:16px 18px;background:var(--quiz-bg);border:1px solid var(--border);border-radius:var(--radius-sm);transition:border-color .3s,box-shadow .3s}
+.quiz-item .quiz-q{font-size:.98rem;margin-bottom:8px;font-weight:500}
+.quiz-input{width:100%;min-height:60px;padding:10px;border:2px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.89rem;resize:vertical;background:var(--card);color:var(--text);transition:border-color .2s}
+.quiz-input:focus{outline:none;border-color:var(--accent)}
+.quiz-submit{margin-top:8px;padding:7px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.98rem;font-weight:600;transition:all .15s}
+.quiz-submit:hover{background:var(--accent2);transform:translateY(-1px)}
+.quiz-submit:disabled{background:var(--text2);cursor:default;transform:none}
+.quiz-answer{display:none;margin-top:10px;padding:12px 14px;background:var(--green-bg);border-left:4px solid var(--green);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:.89rem;animation:answerReveal .45s ease-out}
+.quiz-answer strong{color:var(--green)}
+@keyframes answerReveal{0%{opacity:0;transform:translateY(-8px);max-height:0}50%{opacity:1;transform:translateY(0)}100%{max-height:2000px;border-left-color:var(--green);box-shadow:0 0 0 1px var(--green)}}
+
+.back-top{position:fixed;bottom:26px;right:26px;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:1.18rem;cursor:pointer;box-shadow:var(--shadow-lg);opacity:0;transition:opacity .3s;z-index:200}
+.back-top.visible{opacity:1}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--subj),var(--accent));z-index:300;transition:width .15s linear}
+.quiz-hidden{display:none}
+
+@media print {
+  .sidebar,.back-top,.progress-bar,.sub-nav,.topbar,.menu-toggle,.theme-btn,.filter-bar,.quiz-submit { display:none!important }
+  .main { margin-left:0!important; padding:0!important; max-width:100%!important }
+  .section { break-inside:avoid; box-shadow:none!important; border:1px solid #ddd!important }
+  body { font-size:11pt; color:#000; background:#fff }
+  .quiz-answer { display:block!important }
+  textarea { display:none }
+}
+
+@media(max-width:860px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:10px 8px 50px}.menu-toggle{display:block}
+  .section{padding:16px 12px}.sub-nav a{padding:6px 14px;font-size:.98rem}
+  .filter-bar{flex-wrap:wrap;gap:4px}
+  .score-counter{margin-left:0;width:100%;text-align:right;margin-top:4px}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header"><h2>高数大一下</h2><div class="sub">练习模块 · 66道精练题</div></div>
+  <div class="subj-nav">
+    <a href="/math/study/" class="cur">高数</a><a href="/physics/">大物</a><a href="/linear_algebra/">线代</a><a href="/c_lang/">C语言</a>
+  </div>
+  <nav>
+    <div class="nav-group"><div class="nav-group-title">向量与空间解析几何</div><ul class="nav-links">
+      <li><a href="#p1-1">练1-2 向量共面</a></li><li><a href="#p1-2">练3 线面关系</a></li><li><a href="#p1-3">练4 垂直平面</a></li><li><a href="#p1-4">练5 投影</a></li><li><a href="#p1-5">练6 旋转曲面</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">多元函数微分学</div><ul class="nav-links">
+      <li><a href="#p2-1">练7 分段函数</a></li><li><a href="#p2-2">练8 方向导数</a></li><li><a href="#p2-3">练9 隐函数</a></li><li><a href="#p2-4">练10 切平面</a></li><li><a href="#p2-5">练11 综合</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">重积分</div><ul class="nav-links">
+      <li><a href="#p3-1">练12 极坐标</a></li><li><a href="#p3-2">练13 交换次序</a></li><li><a href="#p3-3">练14 三重积分</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">曲线积分与曲面积分</div><ul class="nav-links">
+      <li><a href="#p4-1">练15 曲线积分判断</a></li><li><a href="#p4-2">练16 曲面积分</a></li><li><a href="#p4-3">练17 格林公式</a></li><li><a href="#p4-4">练18 高斯定理</a></li><li><a href="#p4-5">练19 曲线积分大题</a></li><li><a href="#p4-6">练20 曲线积分计算</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">无穷级数</div><ul class="nav-links">
+      <li><a href="#p5-1">练21 收敛域</a></li><li><a href="#p5-2">练22 傅里叶</a></li><li><a href="#p5-3">练23-24 级数判断</a></li></ul></div>
+  </nav>
+</aside>
+<main class="main">
+  <div class="topbar"><div style="display:flex;align-items:center;gap:8px"><button class="menu-toggle" id="menuToggle">=</button><h1>高数大一下</h1></div><button class="theme-btn" id="themeBtn">主题</button></div>
+  <div class="sub-nav"><a href="/math/study/">学习</a><a href="/math/practice/" class="cur">练习</a><a href="/math/exam/">考试</a></div>
+<div class="filter-bar">
+  <button onclick="filterDifficulty('all')" class="active" id="filtAll">全部</button>
+  <button onclick="filterDifficulty('easy')" class="filt-easy" id="filtEasy">基础</button>
+  <button onclick="filterDifficulty('med')" class="filt-med" id="filtMed">进阶</button>
+  <button onclick="filterDifficulty('hard')" class="filt-hard" id="filtHard">挑战</button>
+  <span class="score-counter">已完成: <strong id="doneCount">0</strong> / 66</span>
+  <button class="reset-btn" onclick="resetAll()">重置全部</button>
+</div>
+
+<!-- ====== Chapter 1: 向量与空间解析几何 (15题) ====== -->
+<section class="section" id="p1-1"><h2><span class="badge">1-2</span> 向量共面</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练1：</strong>\(\vec{a}=(2,1,-1),\vec{b}=(1,0,3),\vec{c}=(k,2,1)\)共面，求\(k\)。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+三向量共面的充要条件是混合积为零：<br>
+\((\vec{a}\times\vec{b})\cdot\vec{c}=\begin{vmatrix}2&1&-1\\1&0&3\\k&2&1\end{vmatrix}\)<br>
+展开：\(=2(0\cdot1-3\cdot2)-1(1\cdot1-3\cdot k)+(-1)(1\cdot2-0\cdot k)\)<br>
+\(=2(-6)-1(1-3k)-2 = -12-1+3k-2 = 3k-15=0\)<br>
+\(k=5\)。<br>\(\boxed{k=5}\)
+</div></div>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练2：</strong>\(\vec{a}=(3,0,1),\vec{b}=(1,2,-1),\vec{c}=(2,m,0)\)不共面，求\(m\)范围。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+不共面等价于混合积不等于零：<br>
+\(\begin{vmatrix}3&0&1\\1&2&-1\\2&m&0\end{vmatrix}\)<br>
+展开：\(3(2\cdot0-(-1)m) - 0 + 1(1\cdot m-2\cdot2) = 3m + m - 4 = 4m - 4 \neq 0\)<br>
+\(m \neq 1\)。<br>\(\boxed{m \neq 1}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练2b：</strong>设\(\vec{a}=(k,1,0),\vec{b}=(2,k,1),\vec{c}=(1,0,k)\)共面，求实数\(k\)的值。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+共面 \(\iff\) 混合积为零：<br>
+\(\begin{vmatrix}k&1&0\\2&k&1\\1&0&k\end{vmatrix}\)<br>
+按第一行展开：\(k\begin{vmatrix}k&1\\0&k\end{vmatrix} - 1\begin{vmatrix}2&1\\1&k\end{vmatrix} + 0\)<br>
+\(= k(k^2-0) - 1(2k-1) = k^3 - 2k + 1\)<br>
+令 \(k^3-2k+1=0\)，试根 \(k=1\)：\(1-2+1=0\)，成立。<br>
+因式分解：\((k-1)(k^2+k-1)=0\)<br>
+解得 \(k=1\)，或 \(k=\frac{-1\pm\sqrt{5}}{2}\)。<br>\(\boxed{k=1,\;\frac{-1\pm\sqrt{5}}{2}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练2c：</strong>已知\(\vec{a}=(2,\lambda,1),\vec{b}=(1,2,-\lambda),\vec{c}=(\mu,1,2)\)共面，且\(|\vec{c}|=\sqrt{6}\)，求\(\lambda,\mu\)。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+条件1: 共面 \(\iff\) 混合积为零：<br>
+\(\begin{vmatrix}2&\lambda&1\\1&2&-\lambda\\\mu&1&2\end{vmatrix}\)<br>
+展开：\(2(4+\lambda) - \lambda(2+\lambda\mu) + 1(1-2\mu)\)<br>
+\(= 8+2\lambda - 2\lambda - \lambda^2\mu + 1 - 2\mu = 9 - \lambda^2\mu - 2\mu = 0\)<br>
+即 \(\mu(\lambda^2+2)=9\)  ... (1)<br>
+条件2: \(|\vec{c}|=\sqrt{\mu^2+1+4}=\sqrt{\mu^2+5}=\sqrt{6}\)，得 \(\mu^2=1\)，\(\mu=\pm 1\)。<br>
+代入 (1)：若 \(\mu=1\)，\(\lambda^2+2=9\)，\(\lambda^2=7\)，\(\lambda=\pm\sqrt{7}\)。<br>
+若 \(\mu=-1\)，\(-(\lambda^2+2)=9\)，\(\lambda^2=-11\)（无实数解，舍去）。<br>
+\(\boxed{\mu=1,\;\lambda=\pm\sqrt{7}}\)
+</div></div>
+</section>
+
+<section class="section" id="p1-2"><h2><span class="badge">3</span> 直线与平面位置关系</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练3：</strong>直线\(\frac{x-2}{1}=\frac{y}{-2}=\frac{z+1}{3}\)与平面\(x-2y+3z=0\)位置关系？</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+方向向量 \(\vec{s}=(1,-2,3)\)，法向量 \(\vec{n}=(1,-2,3)\)。<br>
+\(\vec{s}\parallel\vec{n}\)（分量成比例），故直线垂直于平面。<br>
+取直线上点 \(P_0(2,0,-1)\)，代入平面：\(2-0-3=-1\neq0\)。<br>
+直线不在平面内。<br>\(\boxed{\text{直线垂直于平面，但不在平面内}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练3b：</strong>判断直线\(\frac{x}{2}=\frac{y-1}{-1}=\frac{z+2}{3}\)与平面\(4x-2y+6z=0\)的位置关系。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+方向向量 \(\vec{s}=(2,-1,3)\)，法向量 \(\vec{n}=(4,-2,6)=2(2,-1,3)\)。<br>
+\(\vec{n}=2\vec{s}\)，故 \(\vec{s}\parallel\vec{n}\)，直线垂直于平面。<br>
+取直线上点 \(P_0(0,1,-2)\)，代入平面：\(0-2-12=-14\neq0\)。<br>
+直线不在平面内。<br>\(\boxed{\text{直线垂直于平面，但不在平面内}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练3c：</strong>直线\(\frac{x-1}{3}=\frac{y+2}{\lambda}=\frac{z}{-1}\)与平面\(2x+y-3z+5=0\)平行，求\(\lambda\)，并判断直线是否在平面内。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+方向向量 \(\vec{s}=(3,\lambda,-1)\)，法向量 \(\vec{n}=(2,1,-3)\)。<br>
+平行 \(\iff\) 方向向量与法向量垂直，即 \(\vec{s}\cdot\vec{n}=0\)：<br>
+\(3\times2 + \lambda\times1 + (-1)\times(-3) = 6+\lambda+3 = \lambda+9 = 0\)<br>
+得 \(\lambda = -9\)。<br>
+检验直线上一点 \(P_0(1,-2,0)\) 是否在平面上：<br>
+\(2\times1 + (-2) - 3\times0 + 5 = 2-2+0+5 = 5 \neq 0\)。<br>
+直线不在平面内。<br>\(\boxed{\lambda=-9,\text{ 直线平行于平面但不在平面内}}\)
+</div></div>
+</section>
+
+<section class="section" id="p1-3"><h2><span class="badge">4</span> 垂直平面方程</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练4：</strong>过直线\(\begin{cases}2x+y-1=0\\y-z+1=0\end{cases}\)且与平面\(x-y+z=0\)垂直的平面方程。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+设平面束：\((2x+y-1)+\lambda(y-z+1)=0\)。<br>
+整理：\(2x+(1+\lambda)y-\lambda z+(-1+\lambda)=0\)。<br>
+法向量 \(\vec{n}_\lambda=(2,1+\lambda,-\lambda)\)，已知平面法向量 \(\vec{n}_0=(1,-1,1)\)。<br>
+垂直 \(\iff\vec{n}_\lambda\cdot\vec{n}_0=0\)：\(2-(1+\lambda)-\lambda=0 \Rightarrow 1-2\lambda=0 \Rightarrow \lambda=\frac{1}{2}\)。<br>
+代入：\(2x+\frac{3}{2}y-\frac{1}{2}z-\frac{1}{2}=0\)，乘2：\(4x+3y-z-1=0\)。<br>\(\boxed{4x+3y-z-1=0}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练4b：</strong>过直线\(L:\frac{x-1}{2}=\frac{y}{-1}=\frac{z+2}{3}\)且与向量\(\vec{n}=(1,1,1)\)垂直的平面方程。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+所求平面的法向量需同时满足：(a)与直线方向垂直（含直线），(b)与\(\vec{n}=(1,1,1)\)垂直。<br>
+直线方向 \(\vec{s}=(2,-1,3)\)，所求平面法向量 \(\vec{N}=\vec{s}\times\vec{n}\)：<br>
+\(\vec{N}=\begin{vmatrix}\vec{i}&\vec{j}&\vec{k}\\2&-1&3\\1&1&1\end{vmatrix} = (-1-3)\vec{i} - (2-3)\vec{j} + (2+1)\vec{k} = (-4,1,3)\)。<br>
+取直线上点 \(P_0(1,0,-2)\)，平面方程：\(-4(x-1)+1(y-0)+3(z+2)=0\)。<br>
+展开：\(-4x+4+y+3z+6=0\)，即 \(-4x+y+3z+10=0\)。<br>\(\boxed{-4x+y+3z+10=0\;\text{或}\;4x-y-3z-10=0}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练4c：</strong>求过直线\(L:\frac{x-1}{1}=\frac{y+1}{2}=\frac{z}{-1}\)且与平面\(2x-y+3z=0\)平行的平面方程。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+所求平面过直线L，且与已知平面平行。将L表示为两平面交线：<br>
+由 \(\frac{x-1}{1}=\frac{y+1}{2}\) 得 \(2x-y-3=0\)；由 \(\frac{x-1}{1}=\frac{z}{-1}\) 得 \(x+z-1=0\)。<br>
+设平面束：\((2x-y-3)+\lambda(x+z-1)=0\)。<br>
+整理：\((2+\lambda)x - y + \lambda z + (-3-\lambda)=0\)。<br>
+法向量 \(\vec{n}_\lambda=(2+\lambda,-1,\lambda)\)，已知平面法向量 \(\vec{n}_0=(2,-1,3)\)。<br>
+平行 \(\iff\vec{n}_\lambda\parallel\vec{n}_0\)，即对应分量成比例：<br>
+\(\frac{2+\lambda}{2}=\frac{-1}{-1}=\frac{\lambda}{3}\)。<br>
+由 \(\frac{-1}{-1}=1\)，得 \(2+\lambda=2\Rightarrow\lambda=0\)，同时 \(\lambda=3\) 矛盾！<br>
+结论：不存在这样的平面。因为直线L的方向\(\vec{s}=(1,2,-1)\)与平面法向量\(\vec{n}_0\)不垂直。(\(\vec{s}\cdot\vec{n}_0=2-2-3=-3\neq0\))<br>
+直线不平行于该平面，故不存在过L且平行于该平面的平面。<br>\(\boxed{\text{不存在}}\)
+</div></div>
+</section>
+
+<section class="section" id="p1-4"><h2><span class="badge">5</span> 空间曲线投影</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练5：</strong>求\(\begin{cases}z=x^2+y^2\\x+y+z=2\end{cases}\)在xOy面的投影。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+消去z：由第二个方程 \(z=2-x-y\)，代入第一个：<br>
+\(2-x-y=x^2+y^2\)，整理：\(x^2+y^2+x+y-2=0\)。<br>
+投影：\(\begin{cases}x^2+y^2+x+y-2=0\\z=0\end{cases}\)<br>\(\boxed{\begin{cases}x^2+y^2+x+y-2=0\\z=0\end{cases}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练5b：</strong>求曲线\(\begin{cases}z=x^2+2y^2\\x+y=1\end{cases}\)在yOz坐标面上的投影曲线方程。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+在yOz面上的投影，需消去变量x（令\(x=0\)）。<br>
+由 \(x+y=1\) 得 \(x=1-y\)，代入第一个方程：<br>
+\(z=(1-y)^2+2y^2 = 1-2y+y^2+2y^2 = 1-2y+3y^2\)。<br>
+投影在yOz面上方程为：\(\begin{cases}z=3y^2-2y+1\\x=0\end{cases}\)<br>\(\boxed{\begin{cases}z=3y^2-2y+1\\x=0\end{cases}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练5c：</strong>求曲线\(\begin{cases}z=\sqrt{x^2+y^2}\\x^2+y^2=2x\end{cases}\)在xOy面上的投影曲线的长度。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+在xOy面上的投影只需令\(z=0\)，但曲线本身z由\(x^2+y^2=2x\)确定。<br>
+\(x^2+y^2=2x\)化为\((x-1)^2+y^2=1\)，是以\((1,0)\)为圆心、半径为1的圆。<br>
+投影曲线就是这个圆本身（在xOy面上），其长度为圆的周长。<br>
+周长 \(= 2\pi \times 1 = 2\pi\)。<br>\(\boxed{2\pi}\)
+</div></div>
+</section>
+
+<section class="section" id="p1-5"><h2><span class="badge">6</span> 旋转曲面投影</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练6：</strong>曲线\(\begin{cases}y=\sqrt{x}\\z=0\end{cases}\)绕x轴旋转，与x=4交线在yOz面投影。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+绕x轴旋转：x不变，y替换为旋转半径 \(\sqrt{y^2+z^2}\)：<br>
+\(\sqrt{y^2+z^2}=\sqrt{x}\)，即 \(y^2+z^2=x\)（旋转抛物面）。<br>
+与\(x=4\)交线：\(\begin{cases}y^2+z^2=4\\x=4\end{cases}\)。<br>
+在yOz面投影（令\(x=0\)）：\(\begin{cases}y^2+z^2=4\\x=0\end{cases}\)，是半径为2的圆。<br>\(\boxed{\begin{cases}y^2+z^2=4\\x=0\end{cases}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练6b：</strong>曲线\(\begin{cases}z=y^2\\x=0\end{cases}(0\le y\le 2)\)绕y轴旋转一周，求所得旋转曲面的方程。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+绕y轴旋转：y坐标不变，z被旋转半径 \(\sqrt{x^2+z^2}\) 替换。<br>
+原曲线：\(z=y^2, x=0\)。旋转曲面：\(\sqrt{x^2+z^2}=y^2\)。<br>
+平方得：\(x^2+z^2=y^4\)（旋转抛物面的一种推广）。<br>\(\boxed{x^2+z^2=y^4}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练6c：</strong>圆\(\begin{cases}(y-a)^2+z^2=r^2\\x=0\end{cases}(a>r>0)\)绕z轴旋转，求所得旋转曲面（环面）的方程。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+绕z轴旋转：z坐标不变，x和y满足到z轴的距离不变。<br>
+原曲线在yOz平面：\((y-a)^2+z^2=r^2, x=0\)。<br>
+旋转时，y被到z轴的距离 \(d=\sqrt{x^2+y^2}\) 替换，z不变：<br>
+\((\sqrt{x^2+y^2}-a)^2+z^2=r^2\)。<br>
+展开：\(x^2+y^2-2a\sqrt{x^2+y^2}+a^2+z^2=r^2\)。<br>
+即 \((x^2+y^2+z^2+a^2-r^2)^2 = 4a^2(x^2+y^2)\)。<br>\(\boxed{(\sqrt{x^2+y^2}-a)^2+z^2=r^2}\)
+</div></div>
+</section>
+
+<!-- ====== Chapter 2: 多元函数微分学 (15题) ====== -->
+<section class="section" id="p2-1"><h2><span class="badge">7</span> 分段函数连续性/可微性</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练7：</strong>\(f=\begin{cases}\frac{x^2y}{x^4+y^2}&(x,y)\neq(0,0)\\0&(0,0)\end{cases}\)在(0,0)极限是否存在？</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+沿路径 \(y=kx^2\)：\(f(x,kx^2)=\frac{kx^4}{x^4+k^2x^4}=\frac{k}{1+k^2}\)。<br>
+k取不同值得不同极限(如k=0得0, k=1得1/2)，极限不存在。<br>
+故在(0,0)极限不存在，函数不连续。<br>\(\boxed{\text{极限不存在}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练7b：</strong>\(f=\begin{cases}\frac{x^2-y^2}{x^2+y^2}&(x,y)\neq(0,0)\\0&(0,0)\end{cases}\)在(0,0)偏导数是否存在？</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+由偏导数定义：<br>
+\(f_x(0,0)=\lim_{h\to0}\frac{f(h,0)-f(0,0)}{h}=\lim_{h\to0}\frac{h^2/h^2 - 0}{h}=\lim_{h\to0}\frac{1}{h}\) 不存在。<br>
+\(f_y(0,0)=\lim_{h\to0}\frac{f(0,h)-f(0,0)}{h}=\lim_{h\to0}\frac{-h^2/h^2 - 0}{h}=\lim_{h\to0}\frac{-1}{h}\) 不存在。<br>
+两个偏导数都不存在。<br>\(\boxed{\text{两个偏导数都不存在}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练7c：</strong>用定义验证\(f=\begin{cases}\frac{x^2 y}{x^2+y^2}&(x,y)\neq(0,0)\\0&(0,0)\end{cases}\)在(0,0)是否可微。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+先求偏导数：\(f_x(0,0)=\lim_{h\to0}\frac{0-0}{h}=0,\;f_y(0,0)=\lim_{h\to0}\frac{0-0}{h}=0\)。<br>
+检查可微定义：\(\lim_{\rho\to0}\frac{\Delta z - f_x\Delta x - f_y\Delta y}{\rho}\)，其中\(\rho=\sqrt{(\Delta x)^2+(\Delta y)^2}\)。<br>
+\(\Delta z = f(\Delta x,\Delta y)-f(0,0) = \frac{(\Delta x)^2\Delta y}{(\Delta x)^2+(\Delta y)^2}\)，\(f_x\Delta x+f_y\Delta y=0\)。<br>
+即需验证 \(\lim_{\rho\to0}\frac{(\Delta x)^2\Delta y}{[(\Delta x)^2+(\Delta y)^2]^{3/2}}\)。<br>
+沿 \(\Delta y = \Delta x\)：原式 \(= \frac{(\Delta x)^3}{(2(\Delta x)^2)^{3/2}} = \frac{(\Delta x)^3}{2\sqrt{2}|\Delta x|^3} = \frac{1}{2\sqrt{2}} \neq 0\)。<br>
+极限不为0，故不可微。<br>\(\boxed{\text{在(0,0)处不可微}}\)
+</div></div>
+</section>
+
+<section class="section" id="p2-2"><h2><span class="badge">8</span> 方向导数与梯度</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练8：</strong>\(u=x^2+y^2+z^2\)，求在(1,1,1)处沿\(\vec{l}=(1,1,1)\)的方向导数。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\nabla u = (2x,2y,2z)|_{(1,1,1)} = (2,2,2)\)。<br>
+\(|\vec{l}|=\sqrt{3}\)，单位方向向量 \(\vec{e}=\frac{1}{\sqrt{3}}(1,1,1)\)。<br>
+\(\frac{\partial u}{\partial\vec{l}} = (2,2,2)\cdot\frac{1}{\sqrt{3}}(1,1,1) = \frac{6}{\sqrt{3}} = 2\sqrt{3}\)。<br>\(\boxed{2\sqrt{3}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练8b：</strong>\(f=xyz\)，求在(1,0,1)处沿\(\vec{l}=(1,2,2)\)的方向导数。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\nabla f = (yz, xz, xy)|_{(1,0,1)} = (0, 1, 0)\)。<br>
+\(|\vec{l}|=\sqrt{1+4+4}=3\)，单位向量 \(\vec{e}=\frac{1}{3}(1,2,2)\)。<br>
+\(\frac{\partial f}{\partial\vec{l}} = 0\cdot\frac{1}{3} + 1\cdot\frac{2}{3} + 0\cdot\frac{2}{3} = \frac{2}{3}\)。<br>\(\boxed{\frac{2}{3}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练8c：</strong>\(u=x^2+y^2+z^2\)在(1,-1,2)处，求：(1)梯度；(2)沿梯度方向的方向导数；(3)沿\(\vec{l}=(2,-1,-2)\)方向导数。</div>
+<textarea class="quiz-input" rows="5" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+(1) \(\nabla u = (2x,2y,2z)|_{(1,-1,2)} = (2,-2,4)\)。<br><br>
+(2) 沿梯度方向的方向导数即梯度的模：<br>
+\(|\nabla u| = \sqrt{4+4+16} = \sqrt{24} = 2\sqrt{6}\)。<br><br>
+(3) \(|\vec{l}| = \sqrt{4+1+4} = 3\)，单位向量 \(\vec{e} = \frac{1}{3}(2,-1,-2)\)。<br>
+\(\frac{\partial u}{\partial\vec{l}} = 2\cdot\frac{2}{3} + (-2)\cdot\frac{-1}{3} + 4\cdot\frac{-2}{3} = \frac{4}{3} + \frac{2}{3} - \frac{8}{3} = -\frac{2}{3}\)。<br>\(\boxed{(1)\;(2,-2,4);\;(2)\;2\sqrt{6};\;(3)\;-\frac{2}{3}}\)
+</div></div>
+</section>
+
+<section class="section" id="p2-3"><h2><span class="badge">9</span> 隐函数求导</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练9：</strong>\(x^2+y^2+z^2=1\)确定\(z=f(x,y)\)，求\(\frac{\partial z}{\partial x}\)。</div>
+<textarea class="quiz-input" rows="2" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+设\(F(x,y,z)=x^2+y^2+z^2-1=0\)。<br>
+\(F_x=2x\)，\(F_z=2z\)。<br>
+\(\frac{\partial z}{\partial x} = -\frac{F_x}{F_z} = -\frac{2x}{2z} = -\frac{x}{z}\)。<br>\(\boxed{\frac{\partial z}{\partial x} = -\frac{x}{z}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练9b：</strong>\(x^2+y^2+z^2-3xyz=0\)确定\(z=z(x,y)\)，求\(\frac{\partial z}{\partial x}\)。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+设\(F=x^2+y^2+z^2-3xyz=0\)。<br>
+\(F_x = 2x - 3yz\)，\(F_z = 2z - 3xy\)。<br>
+\(\frac{\partial z}{\partial x} = -\frac{F_x}{F_z} = -\frac{2x-3yz}{2z-3xy}\)。<br>\(\boxed{-\frac{2x-3yz}{2z-3xy}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练9c：</strong>\(z^3-3xyz=1\)确定\(z=z(x,y)\)，求在\((0,0)\)处\(\frac{\partial^2 z}{\partial x^2}\)。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+在(0,0)处，\(z^3=1\) 得 \(z=1\)。<br>
+设\(F=z^3-3xyz-1=0\)。<br>
+\(F_x = -3yz\)，\(F_z = 3z^2 - 3xy\)。<br>
+\(\frac{\partial z}{\partial x} = -\frac{-3yz}{3z^2-3xy} = \frac{yz}{z^2-xy}\)。<br>
+在(0,0,1)处：\(\frac{\partial z}{\partial x}|_{(0,0)} = \frac{0}{1-0}=0\)。<br>
+求二阶偏导，在(0,0)处计算得 \(\frac{\partial^2 z}{\partial x^2}|_{(0,0)} = 0\)。<br>\(\boxed{0}\)
+</div></div>
+</section>
+
+<section class="section" id="p2-4"><h2><span class="badge">10</span> 切平面与法线</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练10：</strong>求曲面\(z=x^2+y^2\)在(1,1,2)处的切平面方程。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(F(x,y,z)=x^2+y^2-z=0\)。<br>
+法向量 \(\vec{n}=(2x,2y,-1)|_{(1,1,2)}=(2,2,-1)\)。<br>
+切平面：\(2(x-1)+2(y-1)-(z-2)=0\)。<br>
+即 \(2x+2y-z-2=0\)。<br>\(\boxed{2x+2y-z-2=0}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练10b：</strong>求曲面\(z=e^x\cos y\)在点\((0,\frac{\pi}{4},\frac{\sqrt{2}}{2})\)处的切平面方程。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(F(x,y,z)=e^x\cos y - z = 0\)。<br>
+\(F_x = e^x\cos y|_P = 1\cdot\frac{\sqrt{2}}{2} = \frac{\sqrt{2}}{2}\)。<br>
+\(F_y = -e^x\sin y|_P = -1\cdot\frac{\sqrt{2}}{2} = -\frac{\sqrt{2}}{2}\)。<br>
+\(F_z = -1\)。<br>
+\(\nabla F = (\frac{\sqrt{2}}{2}, -\frac{\sqrt{2}}{2}, -1)\)。<br>
+切平面：\(\frac{\sqrt{2}}{2}(x-0) - \frac{\sqrt{2}}{2}(y-\frac{\pi}{4}) - (z-\frac{\sqrt{2}}{2}) = 0\)。<br>
+化简：\(\frac{\sqrt{2}}{2}x - \frac{\sqrt{2}}{2}y + \frac{\sqrt{2}\pi}{8} - z + \frac{\sqrt{2}}{2} = 0\)。<br>\(\boxed{\frac{\sqrt{2}}{2}x - \frac{\sqrt{2}}{2}y - z + \frac{\sqrt{2}}{2} + \frac{\sqrt{2}\pi}{8} = 0}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练10c：</strong>求椭球面\(x^2+2y^2+3z^2=21\)上平行于平面\(x+4y+6z=0\)的切平面方程。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(F=x^2+2y^2+3z^2-21=0\)，\(\nabla F = (2x,4y,6z)\)。<br>
+切平面法向量平行于\((1,4,6)\)：\((2x,4y,6z) = k(1,4,6)\)。<br>
+得 \(2x=k,\;4y=4k \Rightarrow y=k,\;6z=6k \Rightarrow z=k,\;x=\frac{k}{2}\)。<br>
+代入椭球面：\((\frac{k}{2})^2 + 2k^2 + 3k^2 = 21\)。<br>
+\(\frac{k^2}{4} + 5k^2 = 21 \Rightarrow \frac{21k^2}{4} = 21 \Rightarrow k^2 = 4 \Rightarrow k = \pm 2\)。<br>
+当\(k=2\)：点\((1,2,2)\)，法向量\((2,8,12)\parallel(1,4,6)\)。<br>
+切平面：\(1(x-1)+4(y-2)+6(z-2)=0 \Rightarrow x+4y+6z=21\)。<br>
+当\(k=-2\)：点\((-1,-2,-2)\)，切平面：\(x+4y+6z=-21\)。<br>\(\boxed{x+4y+6z=21\;\text{和}\;x+4y+6z=-21}\)
+</div></div>
+</section>
+
+<section class="section" id="p2-5"><h2><span class="badge">11</span> 多元函数微分学综合</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练11：</strong>\(f=x^2+xy+y^2\)，求在(1,1)处沿\(\vec{l}=(3,4)\)的方向导数。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(f_x = 2x+y,\;f_y = x+2y\)。<br>
+\(f_x(1,1)=3,\;f_y(1,1)=3\)，\(\nabla f(1,1)=(3,3)\)。<br>
+\(|\vec{l}|=5\)，单位向量 \(\vec{e}=\frac{1}{5}(3,4)\)。<br>
+\(\frac{\partial f}{\partial\vec{l}} = 3\cdot\frac{3}{5} + 3\cdot\frac{4}{5} = \frac{9+12}{5} = \frac{21}{5}\)。<br>\(\boxed{\frac{21}{5}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练11b：</strong>\(f=x^3-3xy+y^3\)，求(1,2)处梯度及沿\(\vec{l}=(3,4)\)的方向导数。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(f_x = 3x^2-3y\)，\(f_y = -3x+3y^2\)。<br>
+在(1,2)：\(f_x = 3-6 = -3\)，\(f_y = -3+12 = 9\)。<br>
+\(\nabla f = (-3, 9)\)。<br>
+\(|\vec{l}|=5\)，\(\frac{\partial f}{\partial\vec{l}} = (-3)\cdot\frac{3}{5} + 9\cdot\frac{4}{5} = \frac{-9+36}{5} = \frac{27}{5}\)。<br>\(\boxed{\nabla f=(-3,9),\;\frac{\partial f}{\partial\vec{l}}=\frac{27}{5}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练11c：</strong>\(f=e^{x+y}\sin(x-y)\)，求\(f_x,f_y\)及在\((\frac{\pi}{2},0)\)处梯度、沿\(\vec{l}=(-1,1)\)方向导数。</div>
+<textarea class="quiz-input" rows="5" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(f_x = e^{x+y}\sin(x-y) + e^{x+y}\cos(x-y) = e^{x+y}[\sin(x-y)+\cos(x-y)]\)。<br>
+\(f_y = e^{x+y}\sin(x-y) - e^{x+y}\cos(x-y) = e^{x+y}[\sin(x-y)-\cos(x-y)]\)。<br>
+在\((\frac{\pi}{2},0)\)：\(\sin(\frac{\pi}{2}-0)=1,\;\cos(\frac{\pi}{2}-0)=0\)。<br>
+\(f_x = e^{\pi/2}[1+0] = e^{\pi/2}\)，\(f_y = e^{\pi/2}[1-0] = e^{\pi/2}\)。<br>
+\(\nabla f = (e^{\pi/2}, e^{\pi/2})\)。<br>
+\(|\vec{l}| = \sqrt{2}\)，\(\frac{\partial f}{\partial\vec{l}} = e^{\pi/2}\cdot\frac{-1}{\sqrt{2}} + e^{\pi/2}\cdot\frac{1}{\sqrt{2}} = 0\)。<br>\(\boxed{f_x=e^{x+y}[\sin(x-y)+\cos(x-y)],\;f_y=e^{x+y}[\sin(x-y)-\cos(x-y)],\;\nabla f=(e^{\pi/2},e^{\pi/2}),\;\frac{\partial f}{\partial\vec{l}}=0}\)
+</div></div>
+</section>
+
+<!-- ====== Chapter 3: 重积分 (9题) ====== -->
+<section class="section" id="p3-1"><h2><span class="badge">12</span> 极坐标</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练12：</strong>设\(D:x^2+y^2\le 4\)，将\(\iint_D e^{x^2+y^2}\,d\sigma\)化为极坐标下的累次积分。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+极坐标：\(x=r\cos\theta,\;y=r\sin\theta\)，\(d\sigma = r\,dr\,d\theta\)。<br>
+\(D: 0\le\theta\le 2\pi,\;0\le r\le 2\)。<br>
+\(e^{x^2+y^2} = e^{r^2}\)。<br>
+\(\iint_D e^{x^2+y^2}\,d\sigma = \int_0^{2\pi} d\theta \int_0^2 e^{r^2}\cdot r\,dr\)。<br>\(\boxed{\int_0^{2\pi} d\theta \int_0^2 r e^{r^2}\,dr}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练12b：</strong>\(D\)为\(x^2+y^2\le 2x\)，将\(\iint_D f(x,y)\,d\sigma\)化为极坐标下的累次积分。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\((x-1)^2+y^2\le 1\)，极坐标：\(r^2\le 2r\cos\theta\)，即 \(r\le 2\cos\theta\)。<br>
+要求 \(2\cos\theta\ge 0\)，故 \(\theta\in[-\frac{\pi}{2},\frac{\pi}{2}]\)。<br>
+\(\iint_D f\,d\sigma = \int_{-\pi/2}^{\pi/2} d\theta \int_0^{2\cos\theta} f(r\cos\theta,r\sin\theta)\,r\,dr\)。<br>\(\boxed{\int_{-\pi/2}^{\pi/2} d\theta \int_0^{2\cos\theta} f(r\cos\theta,r\sin\theta)\,r\,dr}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练12c：</strong>\(D\)为心形线\(r=1+\cos\theta\)所围区域，写出\(\iint_D f(x,y)\,d\sigma\)的极坐标累次积分表达式。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+心形线\(r=1+\cos\theta\)，\(\theta\in[0,2\pi]\)，对于每个\(\theta\)，\(r\)从0到\(1+\cos\theta\)。<br>
+\(\iint_D f\,d\sigma = \int_0^{2\pi} d\theta \int_0^{1+\cos\theta} f(r\cos\theta,r\sin\theta)\,r\,dr\)。<br>\(\boxed{\int_0^{2\pi} d\theta \int_0^{1+\cos\theta} f(r\cos\theta,r\sin\theta)\,r\,dr}\)
+</div></div>
+</section>
+
+<section class="section" id="p3-2"><h2><span class="badge">13</span> 交换积分次序</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练13：</strong>交换积分次序：\(\int_0^1 dx \int_0^x f(x,y)\,dy\)。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+积分区域：\(0\le x\le 1,\;0\le y\le x\)。<br>
+交换次序：\(y\)从0到1，对于每个\(y\)，\(x\)从\(y\)到1。<br>
+\(\int_0^1 dy \int_y^1 f(x,y)\,dx\)。<br>\(\boxed{\int_0^1 dy \int_y^1 f(x,y)\,dx}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练13b：</strong>交换积分次序：\(\int_0^1 dx \int_x^{\sqrt{x}} f(x,y)\,dy\)。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+积分区域：\(0\le x\le 1,\;x\le y\le\sqrt{x}\)。<br>
+由\(x\le y\)得\(x\le y\)，由\(y\le\sqrt{x}\)得\(y^2\le x\)。<br>
+交换次序：\(y\)从0到1，对于每个\(y\)，\(x\)从\(y^2\)到\(y\)。<br>
+\(\int_0^1 dy \int_{y^2}^y f(x,y)\,dx\)。<br>\(\boxed{\int_0^1 dy \int_{y^2}^y f(x,y)\,dx}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练13c：</strong>合并并交换次序：\(\int_0^2 dy \int_{y/2}^1 f\,dx + \int_2^4 dy \int_{y/2}^2 f\,dx\)。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+第一个积分：\(y\in[0,2],\;x\in[y/2,1]\)。<br>
+第二个积分：\(y\in[2,4],\;x\in[y/2,2]\)。<br>
+交换次序：由\(y/2\le x\)得\(y\le 2x\)，且由原区域得\(0\le y\le 4\)。<br>
+当\(x\in[0,1]\)：\(y\in[0,2x]\)。<br>
+当\(x\in[1,2]\)：\(y\in[0,2x]\)且\(2x\ge 2\)覆盖y\(\in[0,4]\)中的有效部分，故\(y\in[0,2x]\)。<br>
+合并：\(x\in[0,2],\;y\in[0,2x]\)。<br>
+\(\int_0^2 dx \int_0^{2x} f(x,y)\,dy\)。<br>\(\boxed{\int_0^2 dx \int_0^{2x} f(x,y)\,dy}\)
+</div></div>
+</section>
+
+<section class="section" id="p3-3"><h2><span class="badge">14</span> 三重积分</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练14：</strong>计算\(\iiint_\Omega x^2\,dv\)，其中\(\Omega\)为长方体\([0,1]\times[0,2]\times[0,3]\)。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\iiint_\Omega x^2\,dv = \int_0^1 x^2\,dx \int_0^2 dy \int_0^3 dz\)。<br>
+\(= [\frac{x^3}{3}]_0^1 \times 2 \times 3 = \frac{1}{3} \times 6 = 2\)。<br>\(\boxed{2}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练14b：</strong>计算\(\iiint_\Omega z^2\,dv\)，其中\(\Omega\)为\(x^2+y^2+z^2\le 1\)（球坐标）。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+球坐标：\(x=r\sin\varphi\cos\theta,\;y=r\sin\varphi\sin\theta,\;z=r\cos\varphi\)。<br>
+\(dv = r^2\sin\varphi\,dr\,d\varphi\,d\theta\)，\(z^2 = r^2\cos^2\varphi\)。<br>
+\(\iiint_\Omega z^2\,dv = \int_0^{2\pi} d\theta \int_0^\pi d\varphi \int_0^1 r^2\cos^2\varphi \cdot r^2\sin\varphi\,dr\)。<br>
+\(= \int_0^{2\pi} d\theta \int_0^\pi \cos^2\varphi\sin\varphi\,d\varphi \int_0^1 r^4\,dr\)。<br>
+\(\int_0^1 r^4\,dr = \frac{1}{5}\)。<br>
+\(\int_0^\pi \cos^2\varphi\sin\varphi\,d\varphi = [-\frac{\cos^3\varphi}{3}]_0^\pi = \frac{2}{3}\)。<br>
+\(\int_0^{2\pi} d\theta = 2\pi\)。<br>
+结果 \(= 2\pi \times \frac{2}{3} \times \frac{1}{5} = \frac{4\pi}{15}\)。<br>\(\boxed{\frac{4\pi}{15}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练14c：</strong>计算\(\iiint_\Omega (x^2+y^2)\,dv\)，其中\(\Omega\)由\(z=x^2+y^2\)和\(z=4\)围成（柱坐标）。</div>
+<textarea class="quiz-input" rows="5" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+柱坐标：\(x=r\cos\theta,\;y=r\sin\theta,\;z=z\)，\(dv = r\,dr\,d\theta\,dz\)。<br>
+\(x^2+y^2 = r^2\)。<br>
+交线：\(z=r^2=4 \Rightarrow r=2\)。<br>
+积分区域：\(0\le\theta\le 2\pi,\;0\le r\le 2,\;r^2\le z\le 4\)。<br>
+\(\iiint_\Omega (x^2+y^2)\,dv = \int_0^{2\pi} d\theta \int_0^2 dr \int_{r^2}^4 r^2 \cdot r\,dz\)。<br>
+\(= \int_0^{2\pi} d\theta \int_0^2 r^3(4-r^2)\,dr = 2\pi \int_0^2 (4r^3 - r^5)\,dr\)。<br>
+\(= 2\pi [r^4 - \frac{r^6}{6}]_0^2 = 2\pi (16 - \frac{64}{6}) = 2\pi (16 - \frac{32}{3})\)。<br>
+\(= 2\pi \times \frac{16}{3} = \frac{32\pi}{3}\)。<br>\(\boxed{\frac{32\pi}{3}}\)
+</div></div>
+</section>
+
+<!-- ====== Chapter 4: 曲线积分与曲面积分 (18题) ====== -->
+<section class="section" id="p4-1"><h2><span class="badge">15</span> 曲线积分判断</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练15：</strong>判断：「格林公式将曲线积分化为二重积分。」</div>
+<textarea class="quiz-input" rows="2" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+正确。格林公式 \(\oint_L P\,dx+Q\,dy = \iint_D (\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y})\,dxdy\) 将封闭曲线的曲线积分转化为所围区域的二重积分。<br>\(\boxed{\text{正确}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练15b：</strong>判断：「格林公式要求积分曲线必须封闭。」</div>
+<textarea class="quiz-input" rows="2" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+正确。格林公式成立的前提是积分曲线L是封闭曲线（且取正向）。对于非封闭曲线，需要补线使其封闭后再使用格林公式。<br>\(\boxed{\text{正确}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练15c：</strong>判断：「若\(\frac{\partial Q}{\partial x}=\frac{\partial P}{\partial y}\)处处成立，则对坐标的曲线积分必与路径无关。」</div>
+<textarea class="quiz-input" rows="2" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+错误。\(\frac{\partial Q}{\partial x}=\frac{\partial P}{\partial y}\)是积分与路径无关的必要条件，但还需要区域是单连通的。如果区域不是单连通（如存在"洞"），即使偏导数相等，积分也可能与路径有关。<br>\(\boxed{\text{错误}}\)
+</div></div>
+</section>
+
+<section class="section" id="p4-2"><h2><span class="badge">16</span> 曲面积分(第一类)</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练16：</strong>计算\(\iint_\Sigma z\,dS\)，其中\(\Sigma\)为平面\(x+y+z=1\)在第一卦限部分。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(z=1-x-y\)，\(dS = \sqrt{1+z_x^2+z_y^2}\,dxdy = \sqrt{1+1+1}\,dxdy = \sqrt{3}\,dxdy\)。<br>
+投影区域\(D: 0\le x\le 1,\;0\le y\le 1-x\)。<br>
+\(\iint_\Sigma z\,dS = \iint_D (1-x-y)\sqrt{3}\,dxdy\)。<br>
+\(= \sqrt{3}\int_0^1 dx\int_0^{1-x}(1-x-y)\,dy = \sqrt{3}\int_0^1 \frac{(1-x)^2}{2}\,dx\)。<br>
+\(= \frac{\sqrt{3}}{2}\cdot\frac{1}{3} = \frac{\sqrt{3}}{6}\)。<br>\(\boxed{\frac{\sqrt{3}}{6}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练16b：</strong>计算\(\iint_\Sigma y\,dS\)，其中\(\Sigma\)为平面\(x+y+z=1\)在第一卦限部分。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(dS = \sqrt{3}\,dxdy\)，投影区域\(D\)同上。<br>
+\(\iint_\Sigma y\,dS = \iint_D y\sqrt{3}\,dxdy = \sqrt{3}\int_0^1 dx\int_0^{1-x} y\,dy\)。<br>
+\(= \sqrt{3}\int_0^1 \frac{(1-x)^2}{2}\,dx = \frac{\sqrt{3}}{2}\cdot\frac{1}{3} = \frac{\sqrt{3}}{6}\)。<br>\(\boxed{\frac{\sqrt{3}}{6}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练16c：</strong>计算\(\iint_\Sigma (x^2+y^2)\,dS\)，其中\(\Sigma\)为上半球面\(z=\sqrt{1-x^2-y^2}\)。</div>
+<textarea class="quiz-input" rows="5" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(dS = \sqrt{1+(\frac{-x}{z})^2+(\frac{-y}{z})^2}\,dxdy = \frac{1}{z}\,dxdy\)。<br>
+投影到xOy面：\(D=\{(x,y)\mid x^2+y^2\le 1\}\)。<br>
+\(\iint_\Sigma (x^2+y^2)\,dS = \iint_D (x^2+y^2)\cdot\frac{1}{\sqrt{1-x^2-y^2}}\,dxdy\)。<br>
+极坐标：\(= \int_0^{2\pi} d\theta \int_0^1 \frac{r^3}{\sqrt{1-r^2}}\,dr\)。<br>
+令\(u=1-r^2\)，\(du=-2r\,dr\)：<br>
+\(\int_0^1 \frac{r^3}{\sqrt{1-r^2}}\,dr = \frac{1}{2}\int_0^1 \frac{1-u}{\sqrt{u}}\,du = \frac{1}{2}[2\sqrt{u} - \frac{2}{3}u^{3/2}]_0^1 = \frac{2}{3}\)。<br>
+结果 \(= 2\pi \times \frac{2}{3} = \frac{4\pi}{3}\)。<br>\(\boxed{\frac{4\pi}{3}}\)
+</div></div>
+</section>
+
+<section class="section" id="p4-3"><h2><span class="badge">17</span> 格林公式</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练17：</strong>计算\(\oint_L x\,dy - y\,dx\)，其中\(L\)为圆周\(x^2+y^2=1\)正向。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+由格林公式：\(P=-y,\;Q=x\)。<br>
+\(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y} = 1 - (-1) = 2\)。<br>
+\(\oint_L x\,dy - y\,dx = \iint_D 2\,d\sigma = 2\cdot\pi\cdot1^2 = 2\pi\)。<br>\(\boxed{2\pi}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练17b：</strong>计算\(\oint_L (2x-y)\,dx+(x+3y)\,dy\)，\(L\)为以\((0,0),(2,0),(0,1)\)为顶点的三角形正向。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(P=2x-y,\;Q=x+3y\)。<br>
+\(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y} = 1 - (-1) = 2\)。<br>
+三角形面积 \(S = \frac{1}{2}\times 2\times 1 = 1\)。<br>
+由格林公式：\(\oint_L = \iint_D 2\,d\sigma = 2\times 1 = 2\)。<br>\(\boxed{2}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练17c：</strong>计算\(\int_L (e^x\sin y-2y)\,dx+(e^x\cos y-2)\,dy\)，\(L\)从\((0,0)\)沿\(y=x^2\)到\((2,4)\)。</div>
+<textarea class="quiz-input" rows="5" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(P=e^x\sin y-2y,\;Q=e^x\cos y-2\)。<br>
+\(\frac{\partial P}{\partial y}=e^x\cos y-2\)，\(\frac{\partial Q}{\partial x}=e^x\cos y\)，不相等，积分与路径有关。<br>
+补有向直线段\(L_1\)从\((2,4)\)到\((0,0)\)（\(y=2x\)）。<br>
+封闭曲线\(L+L_1\)围成区域D，\(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}=2\)。<br>
+\(\oint_{L+L_1} = \iint_D 2\,d\sigma = 2\int_0^2(2x-x^2)dx = 2[4-\frac{8}{3}] = \frac{8}{3}\)。<br>
+在\(L_1\)上：参数化并积分，\(\int_{L_1} = -e^2\sin 4 + 16\)。<br>
+原积分 \(= \frac{8}{3} - (-e^2\sin 4+16) = e^2\sin 4 - \frac{40}{3}\)。<br>\(\boxed{e^2\sin 4 - \frac{40}{3}}\)
+</div></div>
+</section>
+
+<section class="section" id="p4-4"><h2><span class="badge">18</span> 高斯定理</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练18：</strong>计算\(\oiint_\Sigma x\,dydz+y\,dzdx+z\,dxdy\)，\(\Sigma\)为球面\(x^2+y^2+z^2=1\)外侧。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+由高斯公式：\(P=x,\;Q=y,\;R=z\)。<br>
+\(\text{div}\,\vec{F} = \frac{\partial P}{\partial x}+\frac{\partial Q}{\partial y}+\frac{\partial R}{\partial z} = 1+1+1=3\)。<br>
+\(\oiint_\Sigma = \iiint_\Omega 3\,dv = 3\times\frac{4}{3}\pi\times 1^3 = 4\pi\)。<br>\(\boxed{4\pi}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练18b：</strong>计算\(\oiint_\Sigma (x+y)\,dydz+(y+z)\,dzdx+(z+x)\,dxdy\)，\(\Sigma\)为单位球面外侧。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(P=x+y,\;Q=y+z,\;R=z+x\)。<br>
+\(\text{div}\,\vec{F} = 1+1+1=3\)。<br>
+\(\oiint_\Sigma = \iiint_\Omega 3\,dv = 3\times\frac{4}{3}\pi = 4\pi\)。<br>\(\boxed{4\pi}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练18c：</strong>计算\(\iint_\Sigma x^2\,dydz+y^2\,dzdx+z\,dxdy\)，\(\Sigma\)为上半球面\(z=\sqrt{1-x^2-y^2}\)上侧。</div>
+<textarea class="quiz-input" rows="5" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+曲面不封闭，补底面\(S_1: z=0,\;x^2+y^2\le 1\)，取下侧。<br>
+在\(S_1\)上\(z=0\)，取下侧：\(dydz=0,dzdx=0,z\,dxdy=0\)，故\(\iint_{S_1}=0\)。<br>
+封闭曲面\(\Sigma+S_1\)围成上半球体\(\Omega\)。<br>
+\(P=x^2,\;Q=y^2,\;R=z\)，\(\text{div}\,\vec{F}=2x+2y+1\)。<br>
+\(\iiint_\Omega (2x+2y+1)\,dv = \iiint_\Omega 1\,dv\)（奇函数积分为0）。<br>
+\(\iiint_\Omega 1\,dv = \frac{2\pi}{3}\)。<br>
+由高斯公式：\(\oiint_{\Sigma+S_1} = \frac{2\pi}{3}\)。<br>
+原积分 \(= \frac{2\pi}{3} - 0 = \frac{2\pi}{3}\)。<br>\(\boxed{\frac{2\pi}{3}}\)
+</div></div>
+</section>
+
+<section class="section" id="p4-5"><h2><span class="badge">19</span> 曲线积分大题</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练19：</strong>计算\(\oint_L (x^2+y^2)\,dx+2xy\,dy\)，\(L\)为圆周\(x^2+y^2=1\)正向。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(P=x^2+y^2,\;Q=2xy\)。<br>
+\(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y} = 2y - 2y = 0\)。<br>
+由格林公式：\(\oint_L = \iint_D 0\,d\sigma = 0\)。<br>\(\boxed{0}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练19b：</strong>验证\(\int_L 2xy\,dx+x^2\,dy\)与路径无关，并求从\((0,0)\)到\((2,1)\)的积分值。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(P=2xy,\;Q=x^2\)。<br>
+\(\frac{\partial P}{\partial y}=2x = \frac{\partial Q}{\partial x}\)，且全平面单连通，故积分与路径无关。<br>
+求原函数：\(u(x,y)=\int_0^x P(t,0)\,dt + \int_0^y Q(x,t)\,dt = 0 + x^2y\)。<br>
+\(\int_L = u(2,1)-u(0,0) = 4-0 = 4\)。<br>\(\boxed{4}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练19c：</strong>计算\(\oint_L (x^2+y)\,dx+(x+y^2)\,dy\)，\(L: (0,0)\to\)沿\(y=x^2\to(1,1)\to\)沿直线\(\to(0,0)\)封闭正向。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+封闭曲线，用格林公式。<br>
+\(P=x^2+y,\;Q=x+y^2\)。<br>
+\(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y} = 1-1 = 0\)。<br>
+由格林公式：\(\oint_L = \iint_D 0\,d\sigma = 0\)。<br>\(\boxed{0}\)
+</div></div>
+</section>
+
+<section class="section" id="p4-6"><h2><span class="badge">20</span> 第一类曲线积分</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练20：</strong>计算\(\int_L x\,ds\)，\(L\)为直线\(y=x\)从\((0,0)\)到\((1,1)\)的一段。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+参数化：\(x=t,\;y=t,\;t\in[0,1]\)。<br>
+\(ds = \sqrt{(dx/dt)^2+(dy/dt)^2}\,dt = \sqrt{1+1}\,dt = \sqrt{2}\,dt\)。<br>
+\(\int_L x\,ds = \int_0^1 t\cdot\sqrt{2}\,dt = \sqrt{2}\cdot\frac{1}{2} = \frac{\sqrt{2}}{2}\)。<br>\(\boxed{\frac{\sqrt{2}}{2}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练20b：</strong>计算\(\int_L z\,ds\)，\(L\)为螺旋线\(x=\cos t,\;y=\sin t,\;z=t,\;t\in[0,2\pi]\)。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(ds = \sqrt{(-\sin t)^2+(\cos t)^2+1^2}\,dt = \sqrt{2}\,dt\)。<br>
+\(\int_L z\,ds = \int_0^{2\pi} t\cdot\sqrt{2}\,dt = \sqrt{2}\cdot[\frac{t^2}{2}]_0^{2\pi} = \sqrt{2}\cdot\frac{4\pi^2}{2} = 2\sqrt{2}\,\pi^2\)。<br>\(\boxed{2\sqrt{2}\,\pi^2}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练20c：</strong>计算\(\int_L (x^2+y^2+z^2)\,ds\)，\(L\)为从\((0,0,0)\)到\((1,1,1)\)的直线段。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+参数化：\(x=t,\;y=t,\;z=t,\;t\in[0,1]\)。<br>
+\(ds = \sqrt{1+1+1}\,dt = \sqrt{3}\,dt\)。<br>
+\(x^2+y^2+z^2 = 3t^2\)。<br>
+\(\int_L (x^2+y^2+z^2)\,ds = \int_0^1 3t^2\cdot\sqrt{3}\,dt = 3\sqrt{3}\cdot[\frac{t^3}{3}]_0^1 = \sqrt{3}\)。<br>\(\boxed{\sqrt{3}}\)
+</div></div>
+</section>
+
+<!-- ====== Chapter 5: 无穷级数 (12题: 练21-24, 各3题) ====== -->
+<section class="section" id="p5-1"><h2><span class="badge">21</span> 收敛域</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练21：</strong>求幂级数\(\sum_{n=1}^\infty \frac{x^n}{n\cdot 2^n}\)的收敛域。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\rho = \lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right| = \lim_{n\to\infty}\frac{n\cdot2^n}{(n+1)\cdot2^{n+1}} = \frac{1}{2}\)。<br>
+收敛半径 \(R = 2\)，即 \(|x| < 2\)。<br>
+在\(x=2\)：\(\sum\frac{2^n}{n\cdot2^n}=\sum\frac{1}{n}\) 发散（调和级数）。<br>
+在\(x=-2\)：\(\sum\frac{(-2)^n}{n\cdot2^n}=\sum\frac{(-1)^n}{n}\) 条件收敛（交错调和级数）。<br>
+收敛域：\([-2, 2)\)。<br>\(\boxed{[-2,2)}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练21b：</strong>求幂级数\(\sum_{n=1}^\infty \frac{(x-2)^n}{n\cdot 4^n}\)的收敛域。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\rho = \lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right| = \lim_{n\to\infty}\frac{n\cdot4^n}{(n+1)\cdot4^{n+1}} = \frac{1}{4}\)。<br>
+收敛半径 \(R = 4\)，即 \(|x-2| < 4 \Rightarrow -2 < x < 6\)。<br>
+在\(x=-2\)：\(\sum\frac{(-4)^n}{n\cdot4^n}=\sum\frac{(-1)^n}{n}\) 条件收敛。<br>
+在\(x=6\)：\(\sum\frac{4^n}{n\cdot4^n}=\sum\frac{1}{n}\) 发散。<br>
+收敛域：\([-2, 6)\)。<br>\(\boxed{[-2,6)}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练21c：</strong>求幂级数\(\sum_{n=1}^\infty \frac{(x+1)^n}{3^n\sqrt{n}}\)的收敛域。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\rho = \lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right| = \lim_{n\to\infty}\frac{3^n\sqrt{n}}{3^{n+1}\sqrt{n+1}} = \frac{1}{3}\)。<br>
+收敛半径 \(R = 3\)，即 \(|x+1| < 3 \Rightarrow -4 < x < 2\)。<br>
+在\(x=-4\)：\(\sum\frac{(-3)^n}{3^n\sqrt{n}} = \sum\frac{(-1)^n}{\sqrt{n}}\)，条件收敛。<br>
+在\(x=2\)：\(\sum\frac{3^n}{3^n\sqrt{n}} = \sum\frac{1}{\sqrt{n}}\)，\(p=\frac{1}{2}<1\)，发散。<br>
+收敛域：\([-4, 2)\)。<br>\(\boxed{[-4,2)}\)
+</div></div>
+</section>
+
+<section class="section" id="p5-2"><h2><span class="badge">22</span> 傅里叶级数</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练22：</strong>\(f(x)=\begin{cases}x+1,&-1\le x<0\\x,&0\le x\le 1\end{cases}\)，其傅里叶级数在\(x=0\)处收敛于何值？</div>
+<textarea class="quiz-input" rows="2" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(x=0\)是第一类间断点。\(f(0^-)=1,\;f(0^+)=0\)。<br>
+由狄利克雷收敛定理，傅里叶级数在间断点处收敛于左右极限的算术平均：<br>
+\(\frac{f(0^-)+f(0^+)}{2} = \frac{1+0}{2} = \frac{1}{2}\)。<br>\(\boxed{\frac{1}{2}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练22b：</strong>\(f(x)=|\sin x|\)在\([-\pi,\pi]\)上的傅里叶级数在\(x=0\)处收敛于何值？</div>
+<textarea class="quiz-input" rows="2" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(f(x)=|\sin x|\)在\([-\pi,\pi]\)上连续，\(f(0)=|\sin 0|=0\)。<br>
+由狄利克雷收敛定理，连续点处傅里叶级数收敛于函数值本身：\(0\)。<br>\(\boxed{0}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练22c：</strong>\(f(x)=\begin{cases}-1,&-\pi\le x<0\\0,&x=0\\1,&0<x\le\pi\end{cases}\)周期延拓，傅里叶级数在\(x=0\)和\(x=\pi\)处各收敛于？</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(x=0\)处：\(f(0^-)=-1,\;f(0^+)=1\)。傅里叶级数收敛于\(\frac{-1+1}{2}=0\)。<br>
+\(x=\pi\)处：周期延拓后，\(f(\pi^-)=1\)，\(f(\pi^+)=\lim_{x\to-\pi^+}f(x)=-1\)。<br>
+傅里叶级数收敛于\(\frac{1+(-1)}{2}=0\)。<br>\(\boxed{\text{在}x=0\text{收敛于}0,\;\text{在}x=\pi\text{收敛于}0}\)
+</div></div>
+</section>
+
+<section class="section" id="p5-3"><h2><span class="badge">23-24</span> 级数敛散性判断</h2>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练23：</strong>判断级数\(\sum_{n=1}^\infty \frac{1}{n^2+n}\)的敛散性。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\frac{1}{n^2+n} < \frac{1}{n^2}\)，而\(\sum\frac{1}{n^2}\)收敛（\(p=2>1\)）。<br>
+由比较判别法，原级数收敛。<br>\(\boxed{\text{收敛}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练23b：</strong>用比较判别法判断\(\sum_{n=1}^\infty \frac{1}{n^2+1}\)的敛散性。</div>
+<textarea class="quiz-input" rows="2" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\frac{1}{n^2+1} < \frac{1}{n^2}\)（\(n\ge 1\)），而\(\sum\frac{1}{n^2}\)收敛（\(p=2>1\)）。<br>
+由比较判别法，原级数收敛。<br>\(\boxed{\text{收敛}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练23c：</strong>用积分判别法判断\(\sum_{n=2}^\infty \frac{1}{n(\ln n)^2}\)的敛散性。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+令\(f(x)=\frac{1}{x(\ln x)^2}\)，在\([2,\infty)\)上连续、正值、递减。<br>
+\(\int_2^\infty \frac{dx}{x(\ln x)^2}\)，令\(u=\ln x,\;du=\frac{dx}{x}\)：<br>
+\(= \int_{\ln 2}^\infty \frac{du}{u^2} = [-\frac{1}{u}]_{\ln 2}^\infty = \frac{1}{\ln 2} < \infty\)。<br>
+广义积分收敛，故原级数收敛。<br>\(\boxed{\text{收敛}}\)
+</div></div>
+
+<div class="quiz-item diff-easy"><div class="quiz-q"><span class="diff-badge diff-easy">🟢 基础</span><strong>练24：</strong>判断级数\(\sum_{n=1}^\infty \frac{(-1)^n}{\sqrt{n}}\)的敛散性（绝对/条件收敛）。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+绝对值级数：\(\sum\frac{1}{\sqrt{n}}\)，\(p=\frac{1}{2}<1\)，发散。故不绝对收敛。<br>
+原级数为交错级数，\(a_n=\frac{1}{\sqrt{n}}\)递减且趋于0。<br>
+由Leibniz判别法，交错级数收敛。因此原级数条件收敛。<br>\(\boxed{\text{条件收敛}}\)
+</div></div>
+
+<div class="quiz-item diff-med"><div class="quiz-q"><span class="diff-badge diff-med">🟠 进阶</span><strong>练24b：</strong>用根值判别法判断\(\sum_{n=1}^\infty \left(\frac{n}{n+1}\right)^{n^2}\)的敛散性。</div>
+<textarea class="quiz-input" rows="3" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+\(\sqrt[n]{a_n} = \sqrt[n]{(\frac{n}{n+1})^{n^2}} = (\frac{n}{n+1})^n = (1+\frac{1}{n})^{-n}\)。<br>
+\(\lim_{n\to\infty}\sqrt[n]{a_n} = \lim_{n\to\infty}(1+\frac{1}{n})^{-n} = e^{-1} = \frac{1}{e} < 1\)。<br>
+由根值判别法，级数收敛。<br>\(\boxed{\text{收敛}}\)
+</div></div>
+
+<div class="quiz-item diff-hard"><div class="quiz-q"><span class="diff-badge diff-hard">🔴 挑战</span><strong>练24c：</strong>判断\(\sum_{n=1}^\infty \frac{(-1)^n\cdot n}{n^2+1}\)的敛散性（说明是绝对收敛还是条件收敛）。</div>
+<textarea class="quiz-input" rows="4" placeholder="在此作答..."></textarea>
+<button class="quiz-submit" onclick="reveal(this)">提交答案</button>
+<div class="quiz-answer"><strong>标准答案：</strong><br>
+绝对值级数：\(\sum\frac{n}{n^2+1} \sim \sum\frac{1}{n}\)发散，故不绝对收敛。<br>
+考察原交错级数：\(a_n = \frac{n}{n^2+1}\)。<br>
+\(f(x)=\frac{x}{x^2+1}\)，\(f'(x)=\frac{1-x^2}{(x^2+1)^2} < 0\)（当\(x>1\)）。<br>
+故当\(n\ge 2\)时\(a_n\)递减。\(\lim_{n\to\infty}a_n=0\)。<br>
+由Leibniz判别法，原级数条件收敛。<br>\(\boxed{\text{条件收敛}}\)
+</div></div>
+</section>
+
+</main>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">^</button>
+
+<script>
+// Theme
+(function(){
+  const saved = localStorage.getItem('review-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+  if(saved==='dark'||(!saved&&prefersDark)) document.documentElement.setAttribute('data-theme','dark');
+})();
+document.getElementById('themeBtn').addEventListener('click',function(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'':'dark');
+  localStorage.setItem('review-theme',isDark?'light':'dark');
+});
+
+// Menu toggle
+document.getElementById('menuToggle').addEventListener('click',function(){
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// Nav collapse
+document.querySelectorAll('.nav-group-title').forEach(function(title){
+  title.addEventListener('click',function(){
+    this.parentElement.classList.toggle('collapsed');
+  });
+});
+
+// Progress bar
+window.addEventListener('scroll',function(){
+  const scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+  const scrollHeight=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  const progress=(scrollTop/scrollHeight)*100;
+  document.getElementById('progress').style.width=Math.min(progress,100)+'%';
+
+  const backTop=document.getElementById('backTop');
+  if(scrollTop>400) backTop.classList.add('visible');
+  else backTop.classList.remove('visible');
+});
+
+// Score tracking
+let doneCount=parseInt(localStorage.getItem('math-practice-done')||'0');
+updateScoreDisplay();
+
+function reveal(btn){
+  const answer=btn.nextElementSibling;
+  const wasHidden=!answer.classList.contains('show');
+  answer.classList.add('show');
+  btn.disabled=true;
+  if(wasHidden){
+    doneCount++;
+    localStorage.setItem('math-practice-done',doneCount);
+    updateScoreDisplay();
+  }
+}
+
+function updateScoreDisplay(){
+  const el=document.getElementById('doneCount');
+  if(el) el.textContent=doneCount;
+}
+
+function filterDifficulty(level){
+  document.querySelectorAll('.filter-bar button').forEach(function(b){
+    b.classList.remove('active');
+  });
+  if(level==='all') document.getElementById('filtAll').classList.add('active');
+  else if(level==='easy') document.getElementById('filtEasy').classList.add('active');
+  else if(level==='med') document.getElementById('filtMed').classList.add('active');
+  else if(level==='hard') document.getElementById('filtHard').classList.add('active');
+
+  document.querySelectorAll('.quiz-item').forEach(function(item){
+    if(level==='all'){ item.style.display=''; return; }
+    if(item.classList.contains('diff-'+level)){ item.style.display=''; }
+    else { item.style.display='none'; }
+  });
+}
+
+function resetAll(){
+  if(!confirm('确定重置所有答案和进度？')) return;
+  document.querySelectorAll('.quiz-answer').forEach(function(a){ a.classList.remove('show'); });
+  document.querySelectorAll('.quiz-submit').forEach(function(b){ b.disabled=false; });
+  doneCount=0;
+  localStorage.setItem('math-practice-done','0');
+  updateScoreDisplay();
+}
+</script>
+</body>
+</html>

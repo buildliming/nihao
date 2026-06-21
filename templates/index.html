@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期末复习</title>
+<style>
+:root {
+  --bg: #f5f7fa; --card: #fff; --text: #1a1a2e; --text2: #5a6170;
+  --border: #e2e8f0;
+  --bar-h: 54px;
+  --font: -apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+}
+[data-theme="dark"] {
+  --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --text2: #94a3b8;
+  --border: #334155;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+html, body { height:100%; overflow:hidden }
+body { font-family:var(--font); background:var(--bg); color:var(--text) }
+
+/* Top bar */
+.topbar {
+  height:var(--bar-h); display:flex; align-items:center; gap:20px;
+  padding:0 24px; background:var(--card); border-bottom:1px solid var(--border);
+  z-index:100; position:relative; box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.topbar .logo {
+  font-size:1.23rem; font-weight:800;
+  background:linear-gradient(135deg,#4f46e5,#7c3aed,#db2777);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  white-space:nowrap; letter-spacing:.02em;
+}
+.tabs { display:flex; gap:0; flex:1; overflow-x:auto }
+.tabs button {
+  padding:10px 22px; border:none; font-size:.96rem; cursor:pointer;
+  white-space:nowrap; background:transparent; color:var(--text2);
+  font-family:var(--font); font-weight:500;
+  position:relative; transition:all .2s;
+}
+.tabs button::after {
+  content:''; position:absolute; bottom:0; left:10%; right:10%; height:3px;
+  border-radius:3px 3px 0 0; background:transparent; transition:all .2s;
+}
+.tabs button:hover { color:var(--text) }
+.tabs button.active { color:#4f46e5; font-weight:700 }
+.tabs button.active::after { background:#4f46e5; left:15%; right:15% }
+
+.topbar .actions { display:flex; gap:10px; align-items:center }
+.theme-btn {
+  background:var(--bg); border:1px solid var(--border); padding:6px 14px;
+  border-radius:20px; cursor:pointer; font-size:.94rem; color:var(--text2);
+  transition:all .15s; font-family:var(--font);
+}
+.theme-btn:hover { border-color:#4f46e5; color:#4f46e5 }
+
+/* Dropdown */
+.dropdown { position:relative; display:inline-flex; align-items:center }
+.dropdown-menu { display:none; position:absolute; top:100%; left:0; min-width:160px;
+  background:var(--card); border:1px solid var(--border); border-radius:10px;
+  box-shadow:var(--shadow-lg); z-index:200; padding:6px; margin-top:4px }
+.dropdown.open .dropdown-menu { display:block }
+.dropdown.open .dropdown-trigger { color:#4f46e5; font-weight:700 }
+.dropdown-menu a { display:block; padding:8px 16px; border-radius:8px; text-decoration:none;
+  color:var(--text2); font-size:.93rem; font-weight:500; transition:all .15s; white-space:nowrap }
+.dropdown-menu a:hover { background:var(--accent-light); color:var(--accent) }
+.dropdown-menu a.current { background:var(--accent-light); color:#4f46e5; font-weight:700 }
+
+/* Iframe area */
+.iframe-wrap { height:calc(100vh - var(--bar-h)); position:relative; background:var(--bg) }
+.iframe-wrap iframe { width:100%; height:100%; border:none; display:none }
+.iframe-wrap iframe.active { display:block }
+
+.loading {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; color:var(--text2); gap:12px;
+}
+.loading .spinner {
+  width:36px; height:36px; border:3px solid var(--border);
+  border-top-color:#4f46e5; border-radius:50%; animation:spin .8s linear infinite;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+
+@media (max-width:640px) {
+  .topbar { gap:8px; padding:0 12px }
+  .tabs button { padding:8px 14px; font-size:.94rem }
+  .topbar .logo { font-size:1.08rem }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="logo">📚 期末复习</span>
+  <div class="tabs">
+    <div class="dropdown open" id="mathDropdown">
+      <button class="dropdown-trigger active" data-tab="0">📐 高数 ▾</button>
+      <div class="dropdown-menu">
+        <a href="#" data-math="/math/study/" class="current">📖 学习</a>
+        <a href="#" data-math="/math/practice/">✏️ 练习</a>
+        <a href="#" data-math="/math/exam/">📋 考试</a>
+      </div>
+    </div>
+    <button data-page="/physics/" data-tab="1">🔬 大物</button>
+    <button data-page="/linear_algebra/" data-tab="2">📊 线代</button>
+    <button data-page="/c_lang/" data-tab="3">💻 C语言</button>
+  </div>
+  <div class="actions">
+    <button class="theme-btn" id="themeBtn">🌓 主题</button>
+  </div>
+</div>
+
+<div class="iframe-wrap">
+  <div class="loading" id="loading"><div class="spinner"></div><span>加载中...</span></div>
+  <iframe id="f0" class="active" src="/math/study/"></iframe>
+  <iframe id="f1" src="about:blank"></iframe>
+  <iframe id="f2" src="about:blank"></iframe>
+  <iframe id="f3" src="about:blank"></iframe>
+</div>
+
+<script>
+const PAGES = ['/math/study/','/physics/','/linear_algebra/','/c_lang/'];
+let currentMathPage = '/math/study/';
+const iframes = [document.getElementById('f0'),document.getElementById('f1'),document.getElementById('f2'),document.getElementById('f3')];
+const loading = document.getElementById('loading');
+const tabBtns = document.querySelectorAll('[data-tab]');
+const loaded = [true,false,false,false];
+
+// Hide loading when any iframe loads
+iframes.forEach(f => f.addEventListener('load',()=>{loading.style.display='none'}));
+
+function switchTab(idx) {
+  tabBtns.forEach(b=>{b.classList.remove('active');if(b.dataset.tab==='0')b.textContent='📐 高数 ▾'});
+  const b = document.querySelector(`[data-tab="${idx}"]`);
+  if(b) b.classList.add('active');
+  iframes.forEach(f=>f.classList.remove('active'));
+  iframes[idx].classList.add('active');
+  if(!loaded[idx]){
+    loading.style.display='flex';
+    iframes[idx].src = idx===0 ? currentMathPage : PAGES[idx];
+    loaded[idx]=true;
+  }
+}
+
+// Tab buttons (大物/线代/C语言)
+document.querySelectorAll('button[data-page]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const idx = parseInt(btn.dataset.tab);
+    switchTab(idx);
+    document.getElementById('mathDropdown').classList.remove('open');
+  });
+});
+
+// Math dropdown trigger
+const mathDD = document.getElementById('mathDropdown');
+const mathTrigger = mathDD.querySelector('.dropdown-trigger');
+mathTrigger.addEventListener('click',(e)=>{
+  e.stopPropagation();
+  mathDD.classList.toggle('open');
+  // Always show math iframe when clicking the trigger
+  const idx = parseInt(mathTrigger.dataset.tab);
+  iframes.forEach(f=>f.classList.remove('active'));
+  iframes[idx].classList.add('active');
+  if(!loaded[idx]){ loading.style.display='flex'; iframes[idx].src=currentMathPage; loaded[idx]=true; }
+  tabBtns.forEach(b=>b.classList.remove('active'));
+  mathTrigger.classList.add('active');
+});
+
+// Math sub-menu links
+mathDD.querySelectorAll('.dropdown-menu a').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    currentMathPage = a.dataset.math;
+    mathDD.querySelectorAll('a').forEach(x=>x.classList.remove('current'));
+    a.classList.add('current');
+    mathDD.classList.remove('open');
+    mathTrigger.textContent = '📐 高数 ▾';
+    mathTrigger.classList.add('active');
+    tabBtns.forEach(b=>{if(b!==mathTrigger)b.classList.remove('active')});
+    iframes.forEach(f=>f.classList.remove('active'));
+    iframes[0].classList.add('active');
+    iframes[0].src = currentMathPage;
+    loaded[0] = true;
+    loading.style.display='flex';
+  });
+});
+
+// Close dropdown on outside click
+document.addEventListener('click',(e)=>{
+  if(!mathDD.contains(e.target)) mathDD.classList.remove('open');
+});
+
+// Theme
+const tb=document.getElementById('themeBtn');
+const s=localStorage.getItem('review-theme');
+if(s==='dark')document.documentElement.setAttribute('data-theme','dark');
+tb.addEventListener('click',()=>{
+  const d=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',d?'':'dark');
+  localStorage.setItem('review-theme',d?'light':'dark');
+});
+
+// Ctrl+1..4
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.key>='1'&&e.key<='4'){e.preventDefault();switchTab(parseInt(e.key)-1)}
+});
+</script>
+</body>
+</html>
