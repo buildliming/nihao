@@ -1033,10 +1033,17 @@ function resetAll(){
   updateScoreDisplay();
 }
 </script>
+<script>
+renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+</script>
 <script src="../static/katex/katex.min.js"></script>
 <script src="../static/katex/contrib/auto-render.min.js"></script>
 <script>
-setTimeout(function(){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+renderMathInElement(document.body,{delimiters:[
+{left:"$$",right:"$$",display:true},
+{left:"\[",right:"\]",display:true},
+{left:"\(",right:"\)",display:false}
+],throwOnError:false});
 </script>
 </body>
 </html>
