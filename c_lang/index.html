@@ -2,11 +2,11 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大学物理 · 期末复习</title>
-<link rel="stylesheet" href="/static/katex/katex.min.css">
+<title>C语言 · 期末复习</title>
+<link rel="stylesheet" href="../static/katex/katex.min.css">
 <style>
-:root{--bg:#f5f7fa;--card:#fff;--text:#1a1a2e;--text2:#5a6170;--border:#e2e8f0;--accent:#4f46e5;--accent-light:#eef2ff;--shadow:0 1px 2px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 4px 24px rgba(0,0,0,.08);--radius:12px;--sidebar-w:260px;--font:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;--subj:#059669;--subj-light:#ecfdf5}
-[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--text2:#94a3b8;--border:#334155;--accent:#818cf8;--accent-light:#1e1b4b;--shadow:0 1px 3px rgba(0,0,0,.4);--shadow-lg:0 4px 24px rgba(0,0,0,.5);--subj:#34d399;--subj-light:#022c22}
+:root{--bg:#f5f7fa;--card:#fff;--text:#1a1a2e;--text2:#5a6170;--border:#e2e8f0;--accent:#4f46e5;--accent-light:#eef2ff;--shadow:0 1px 2px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);--shadow-lg:0 4px 24px rgba(0,0,0,.08);--radius:12px;--sidebar-w:260px;--font:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;--mono:'Cascadia Code','Fira Code',monospace;--subj:#0891b2;--subj-light:#ecfeff}
+[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--text2:#94a3b8;--border:#334155;--accent:#818cf8;--accent-light:#1e1b4b;--shadow:0 1px 3px rgba(0,0,0,.4);--shadow-lg:0 4px 24px rgba(0,0,0,.5);--subj:#22d3ee;--subj-light:#083344}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:17px}
 body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;line-height:1.75}
@@ -41,6 +41,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 .placeholder-box .icon{font-size:3rem;margin-bottom:12px}
 .placeholder-box p{font-size:.96rem;margin:4px 0}
 .placeholder-box .hint{font-size:.96rem;margin-top:10px;padding:10px 16px;background:var(--subj-light);border-radius:8px;display:inline-block;text-align:left}
+pre{background:#1e293b;color:#e2e8f0;padding:14px 18px;border-radius:8px;overflow-x:auto;font-family:var(--mono);font-size:.98rem;line-height:1.6}
 .back-top{position:fixed;bottom:26px;right:26px;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:1.18rem;cursor:pointer;box-shadow:var(--shadow-lg);opacity:0;transition:opacity .3s;z-index:200}
 .back-top.visible{opacity:1}
 .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--subj),var(--accent));z-index:300;transition:width .15s linear}
@@ -50,30 +51,32 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 <body>
 <div class="progress-bar" id="progress"></div>
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-header"><h2>🔬 大学物理</h2><div class="sub">期末复习 · 考点待补充</div></div>
-  <div class="subj-nav"><a href="/math/study/">📐 高数</a><a href="/physics/" class="cur">🔬 大物</a><a href="/linear_algebra/">📊 线代</a><a href="/c_lang/">💻 C语言</a></div>
+  <div class="sidebar-header"><h2>💻 C语言</h2><div class="sub">期末复习 · 考点待补充</div></div>
+  <div class="subj-nav"><a href="../math/study/index.html">📐 高数</a><a href="../physics/index.html">🔬 大物</a><a href="../linear_algebra/index.html">📊 线代</a><a href="../c_lang/index.html" class="cur">💻 C语言</a></div>
   <nav>
-    <div class="nav-group"><div class="nav-group-title">力学</div><ul class="nav-links"><li><a href="#p1">待补充</a></li></ul></div>
-    <div class="nav-group"><div class="nav-group-title">电磁学</div><ul class="nav-links"><li><a href="#p2">待补充</a></li></ul></div>
-    <div class="nav-group"><div class="nav-group-title">热学·振动·波·光学</div><ul class="nav-links"><li><a href="#p3">待补充</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">基础语法</div><ul class="nav-links"><li><a href="#p1">待补充</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">指针与数组</div><ul class="nav-links"><li><a href="#p2">待补充</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">结构体与文件</div><ul class="nav-links"><li><a href="#p3">待补充</a></li></ul></div>
+    <div class="nav-group"><div class="nav-group-title">算法与编程题</div><ul class="nav-links"><li><a href="#p4">待补充</a></li></ul></div>
   </nav>
 </aside>
 <main class="main">
-  <div class="topbar"><div style="display:flex;align-items:center;gap:8px"><button class="menu-toggle" id="menuToggle">☰</button><h1>🔬 大学物理</h1></div><button class="theme-btn" id="themeBtn">🌓 主题</button></div>
+  <div class="topbar"><div style="display:flex;align-items:center;gap:8px"><button class="menu-toggle" id="menuToggle">☰</button><h1>💻 C语言</h1></div><button class="theme-btn" id="themeBtn">🌓 主题</button></div>
   <div class="sub-nav"><a href="index.html" class="cur">📖 学习</a><a href="#" style="opacity:.5">✏️ 练习</a><a href="#" style="opacity:.5">📋 考试</a></div>
-  <section class="section" id="p1"><div class="placeholder-box"><div class="icon">📝</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充力学的核心概念和典型例题。</p><div class="hint">💡 预计涵盖：质点运动学、牛顿定律、动量能量、刚体转动等</div></div></section>
-  <section class="section" id="p2"><div class="placeholder-box"><div class="icon">⚡</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充电磁学的核心概念和典型例题。</p><div class="hint">💡 预计涵盖：静电场、恒定磁场、电磁感应、麦克斯韦方程组等</div></div></section>
-  <section class="section" id="p3"><div class="placeholder-box"><div class="icon">🌡️</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充热学/振动/波/光学的核心概念和典型例题。</p><div class="hint">💡 预计涵盖：热力学、简谐振动、机械波、光的干涉衍射等</div></div></section>
+  <section class="section" id="p1"><div class="placeholder-box"><div class="icon">📝</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充基础语法的核心概念和代码示例。</p><div class="hint">💡 预计涵盖：数据类型、运算符、控制结构、函数等</div></div></section>
+  <section class="section" id="p2"><div class="placeholder-box"><div class="icon">🔢</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充指针与数组的核心概念和代码示例。</p><div class="hint">💡 预计涵盖：一维/二维数组、指针运算、动态内存等</div></div></section>
+  <section class="section" id="p3"><div class="placeholder-box"><div class="icon">📦</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充结构体与文件的核心概念和代码示例。</p><div class="hint">💡 预计涵盖：结构体定义与使用、链表、文件读写等</div></div></section>
+  <section class="section" id="p4"><div class="placeholder-box"><div class="icon">🧩</div><p><strong>考试重点尚未划定</strong></p><p>等老师画完重点后，这里将填充算法与编程题的核心概念和代码示例。</p><div class="hint">💡 预计涵盖：排序、查找、递归、字符串处理、常见编程题型等</div></div></section>
 </main>
 <button class="back-top" id="backTop">↑</button>
 <script>
 const tb=document.getElementById('themeBtn');
-if(localStorage.getItem('phy-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
-tb.addEventListener('click',()=>{const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('phy-theme',d?'light':'dark')});
+if(localStorage.getItem('c-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
+tb.addEventListener('click',()=>{const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('c-theme',d?'light':'dark')});
 const mt=document.getElementById('menuToggle'),sb=document.getElementById('sidebar');
 mt.addEventListener('click',()=>sb.classList.toggle('open'));
 document.addEventListener('click',e=>{if(!sb.contains(e.target)&&e.target!==mt&&!mt.contains(e.target))sb.classList.remove('open')});
-const bt=document.getElementById('backTop');const pb=document.getElementById('progress');
+const bt=document.getElementById('backTop'),pb=document.getElementById('progress');
 window.addEventListener('scroll',()=>{const st=window.scrollY,dh=document.body.scrollHeight-window.innerHeight;pb.style.width=dh>0?(st/dh*100)+'%':'0%';bt.classList.toggle('visible',st>400)});
 bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 </script>

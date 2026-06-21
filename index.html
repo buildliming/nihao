@@ -96,9 +96,9 @@ body { font-family:var(--font); background:var(--bg); color:var(--text) }
     <div class="dropdown open" id="mathDropdown">
       <button class="dropdown-trigger active" data-tab="0">📐 高数 ▾</button>
       <div class="dropdown-menu">
-        <a href="#" data-math="/math/study/" class="current">📖 学习</a>
-        <a href="#" data-math="/math/practice/">✏️ 练习</a>
-        <a href="#" data-math="/math/exam/">📋 考试</a>
+        <a href="#" data-math="math/study/index.html" class="current">📖 学习</a>
+        <a href="#" data-math="math/practice/index.html">✏️ 练习</a>
+        <a href="#" data-math="math/exam/index.html">📋 考试</a>
       </div>
     </div>
     <button data-page="/physics/" data-tab="1">🔬 大物</button>
@@ -112,15 +112,15 @@ body { font-family:var(--font); background:var(--bg); color:var(--text) }
 
 <div class="iframe-wrap">
   <div class="loading" id="loading"><div class="spinner"></div><span>加载中...</span></div>
-  <iframe id="f0" class="active" src="/math/study/"></iframe>
+  <iframe id="f0" class="active" src="math/study/index.html"></iframe>
   <iframe id="f1" src="about:blank"></iframe>
   <iframe id="f2" src="about:blank"></iframe>
   <iframe id="f3" src="about:blank"></iframe>
 </div>
 
 <script>
-const PAGES = ['/math/study/','/physics/','/linear_algebra/','/c_lang/'];
-let currentMathPage = '/math/study/';
+const PAGES = ['math/study/index.html','physics/index.html','linear_algebra/index.html','c_lang/index.html'];
+let currentMathPage = 'math/study/index.html';
 const iframes = [document.getElementById('f0'),document.getElementById('f1'),document.getElementById('f2'),document.getElementById('f3')];
 const loading = document.getElementById('loading');
 const tabBtns = document.querySelectorAll('[data-tab]');
