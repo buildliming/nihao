@@ -1009,21 +1009,20 @@ D 错误——\(L\) 必须是封闭曲线。\(\boxed{\text{D}}\)
 
 </main>
 <button class="back-top" id="backTop">&#8593;</button>
-<script src="../static/katex/katex.min.js"></script>
-<script src="../static/katex/contrib/auto-render.min.js"></script>
-<script src="../static/katex/katex-init.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
 <script>
-try {
-  if (typeof katex === "undefined") {
-    document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: katex not loaded</div>");
-  } else if (typeof renderMathInElement === "undefined") {
-    document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: renderMathInElement not found</div>");
-  } else {
-    renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
-  }
-} catch(e) {
-  document.body.insertAdjacentHTML("afterbegin", "<div style=\"background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999\">ERROR: " + e.message + "</div>");
-}
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "\[", right: "\]", display: true},
+    {left: "\(", right: "\)", display: false}
+  ],
+  throwOnError: false
+});
+
+
 
 
 // === Reveal answers + show score inputs ===
