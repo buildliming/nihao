@@ -909,7 +909,7 @@ h3{font-size:1.01rem;margin:16px 0 8px;color:var(--accent);font-weight:600}
 <script src="../static/katex/katex.min.js"></script>
 <script src="../static/katex/contrib/auto-render.min.js"></script>
 <script>
-renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+window.addEventListener("load",function(){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});});
 const tb=document.getElementById('themeBtn');
 if(localStorage.getItem('review-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');
 tb.addEventListener('click',()=>{const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('review-theme',d?'light':'dark')});

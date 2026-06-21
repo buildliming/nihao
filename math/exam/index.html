@@ -1012,7 +1012,7 @@ D 错误——\(L\) 必须是封闭曲线。\(\boxed{\text{D}}\)
 <script src="../static/katex/katex.min.js"></script>
 <script src="../static/katex/contrib/auto-render.min.js"></script>
 <script>
-renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+window.addEventListener("load",function(){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});});
 
 // === Reveal answers + show score inputs ===
 function revealAll(btn){
